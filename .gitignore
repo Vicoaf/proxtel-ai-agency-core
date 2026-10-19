@@ -28,3 +28,9 @@ worktrees/
 .vscode/settings.json
 *.swp
 *~
+
+
+# Artefactos de ejecución (no versionar)
+tests/integration/
+.agents/
+.playwright-mcp/
