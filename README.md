@@ -230,4 +230,31 @@ mediante `bootstrap/windows-setup.ps1` y `bootstrap/mac-setup.sh`.
 - `tools/quota-log.md` — control de cuotas de las 3 IAs
 - `skills/registry.md` — catálogo documental de skills
 
-README-OK
+---
+
+## Estado actual del Core
+
+El estado consolidado del Core V3 vive en `docs/STATUS.md`. Ese documento es
+la fuente de verdad para:
+
+- Qué está operativo ahora.
+- Qué está pendiente y por qué.
+- Gaps conocidos (departamentos no implementados, skills baseline sin promover).
+- Métricas del piloto certificado.
+- Próximos pasos concretos de la semana 2.
+
+Antes de empezar cualquier trabajo nuevo, leer `docs/STATUS.md`.
+
+---
+
+## Roadmap y certificación
+
+- `docs/certification-plan.md` — plan de certificación del adapter de Claude y
+  hoja de ruta de la semana 2. Define los 10 controles C01-C10, las 5 fases
+  A-E, y los criterios go/no-go.
+- `docs/lessons/pilot-day4-5.md` — 8 fricciones documentadas del piloto T-0001
+  con severidad, mitigación aplicada y acción recomendada.
+
+El piloto T-0001 (landing `piloto-v3`) está certificado en `C:\DEV\piloto-v3\`
+con tag `t-0001-certified`. Sirve como referencia de ejecución del ciclo V3
+en modo asistido.
