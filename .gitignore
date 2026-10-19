@@ -1,36 +1,30 @@
-﻿# Sistema operativo
-Thumbs.db
-Desktop.ini
-.DS_Store
-
-# Editores
-.vscode/
-.idea/
-
-# Logs
-*.log
-
-# Temporales
-*.tmp
-*.temp
-*.bak
-
-# Secretos
+﻿# Entorno
 .env
 .env.*
 !.env.example
 
-# Credenciales
-*.pem
-*.key
-*.p12
-*.pfx
+# Secretos
+secrets/
+*.kdbx
 
-# Dependencias de proyectos temporales
+# Auditorías locales
+.agency-local/
+
+# Dependencias
 node_modules/
 vendor/
 
-# Artefactos
-dist/
-build/
-coverage/
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Worktrees (por si acaso se crean dentro del árbol)
+worktrees/
+
+# Archivos temporales de editores
+.vscode/settings.json
+*.swp
+*~
