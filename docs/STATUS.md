@@ -56,6 +56,19 @@ Estado del Core: OPERATIVO (piloto certificado)
 - 🔜 Sub-paso 4: merge `core-v2` → `main` del Core
 - 🔜 Sub-paso 5: acta de cierre y tag `v3-piloto-certificado`
 
+
+### Semana 2 — D1: Verificación documental del piloto (completado)
+
+- ✅ Integridad del piloto T-0001 verificada (6 evidencias + artefactos QA)
+- ✅ Consistencia del `candidate_commit` en 3 archivos (`04-claude-review.md`, `06-certification.yaml`, `git rev-parse HEAD`): los 3 coinciden en `a41a2e7`
+- ✅ 7 hallazgos de Claude en PASS
+- ✅ 7 criterios de Vic en PASS
+- ✅ 5 pruebas técnicas de Antigravity en PASS
+- ✅ Referencias internas del certificado verificadas (`#revision-visual-vic`, `#aceptacion-vic`)
+- ✅ Sin evidencia huérfana ni referencias rotas
+- ✅ Backup del piloto en `C:\DEV\_backups\piloto-t-0001-2026-10-19.zip` (opción C)
+- Veredicto: **el piloto T-0001 está formalmente verificado y conciliado**
+
 ---
 
 ## Lo que está operativo ahora
