@@ -11,7 +11,10 @@ Documento relacionado: docs/architecture-v3.md sección 7
 ## Roles
 
 - PC Windows = máquina maestra. C:\DEV\PROXTEL-AI-AGENCY. Autoriza merges a main.
-- MacBook Pro = réplica de trabajo. ~/DEV/PROXTEL-AI-AGENCY. Solo push a ramas mac/*.
+- MacBook Pro = réplica de trabajo. ~/DEV/PROXTEL-AI-AGENCY. Puede trabajar en
+  ramas task/T-XXXX-* o mac/task-T-XXXX. Una sola máquina escritora activa por
+  rama (ver standards/concurrency.md). El merge a main lo autoriza Claude en el
+  PC (máquina maestra).
 
 ---
 
@@ -21,7 +24,7 @@ Documento relacionado: docs/architecture-v3.md sección 7
 - Prohibido iCloud, Dropbox, OneDrive, Google Drive para el Core o para cualquier
   repo de cliente. Corrompen .git/, locks y permisos.
 - Al abrir la Mac: git pull --rebase antes de tocar nada.
-- Al cerrar la Mac: git push de la rama mac/* en curso.
+- Al cerrar la Mac: git push de la rama activa (task/* o mac/*).
 
 ---
 
@@ -116,8 +119,8 @@ tarea empezó en la Mac y se necesita terminar en el PC:
 
 Escenario A — PC disponible: trabajo normal. Mac se mantiene por Git.
 
-Escenario B — PC indisponible: Mac puede continuar en ramas mac/* y publicarlas.
-La integración definitiva en main se pospone hasta recuperar la PC.
+Escenario B — PC indisponible: Mac puede continuar en ramas task/* o mac/* y
+publicarlas. La integración definitiva en main se pospone hasta recuperar la PC.
 
 Escenario C — conflicto entre máquinas: se detiene la escritura, se comparan
 commits, se resuelve en rama de tarea. No se permite forzar historia.

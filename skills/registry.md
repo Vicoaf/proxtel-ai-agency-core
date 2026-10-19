@@ -66,6 +66,22 @@ Una skill se convierte en global solo si cumple las tres condiciones:
 Mientras no cumpla las tres, se anota en PROJECT-SKILLS.md del proyecto como
 candidata, NO en este registry.
 
+### Nota sobre baseline y approved
+
+Las skills baseline (creador-skills, inicializador-proyectos) NO son
+equivalentes a approved. Baseline significa que existen y se preservan, pero
+no están autorizadas para uso autónomo en proyectos de clientes sin aprobación
+expresa de Vic. Solo las marcadas approved (auditor-web, estratega-seo,
+maestro-frontend, proxtel-skill-auditor, proxtel-skill-creator) son
+project-capable o core operativas.
+
+La autoridad final del estado de cada skill reside en
+skills/_registry/skills-registry.json (certificado V2). Este documento es
+documental. Si discrepan, gana el JSON.
+
+La promoción a global NO implica activación automática. Toda skill se activa
+on-demand según la sección 6.3 de docs/architecture-v3.md.
+
 ---
 
 ## Cómo se activa una skill en un proyecto
@@ -80,8 +96,9 @@ de templates/PROJECT-SKILLS.md. Ejemplo mínimo:
     # Skills explícitamente NO activas
     - estratega-seo  (proyecto interno, sin objetivo SEO)
 
-Los agentes leen este archivo al arrancar y cargan solo lo declarado + las
-marcadas como globales en skills-registry.json.
+Los agentes consultan este archivo al arrancar. La activación real es on-demand
+según la mecánica propia de cada CLI, y solo para skills cuyo estado en
+skills/_registry/skills-registry.json las autorice.
 
 ---
 

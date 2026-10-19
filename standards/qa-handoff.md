@@ -80,5 +80,11 @@ Una tarea pasa a Vic solo si:
 - 05-playwright.md contiene QA_PASS con screenshots y trazas adjuntas.
 - 01-plan.md, 02-codex.md y 03-google.md existen y respaldan los resultados.
 - No hay modificaciones de código posteriores a la ejecución de Playwright.
+- 06-certification.yaml debe incluir candidate_commit exacto (SHA del commit
+  revisado y probado), visual_review_vic.status=PASS y
+  acceptance_vic.status=APPROVED. La aceptación de Vic no se infiere del QA
+  de Playwright.
+- Si cualquier evidencia falta o el commit revisado no coincide con el commit
+  certificado, el gate queda bloqueado. Claude no solicita merge.
 
 Si falta cualquier elemento, Claude no solicita aprobación de Vic.
