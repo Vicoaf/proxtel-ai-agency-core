@@ -1,0 +1,236 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "PROXTEL: Estado de la Agencia",
+            "type": "shell",
+            "command": "C:\\Users\\MSI\\AppData\\Local\\PROXTEL\\bin\\proxtel.cmd",
+            "args": [
+                "status"
+            ],
+            "options": {
+                "shell": {
+                    "executable": "C:\\Windows\\System32\\cmd.exe",
+                    "args": [
+                        "/d",
+                        "/c"
+                    ]
+                }
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        },
+        {
+            "label": "PROXTEL: Doctor",
+            "type": "shell",
+            "command": "C:\\Users\\MSI\\AppData\\Local\\PROXTEL\\bin\\proxtel.cmd",
+            "args": [
+                "doctor"
+            ],
+            "options": {
+                "shell": {
+                    "executable": "C:\\Windows\\System32\\cmd.exe",
+                    "args": [
+                        "/d",
+                        "/c"
+                    ]
+                }
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        },
+        {
+            "label": "PROXTEL: Preparar Context7 para VS Code",
+            "type": "process",
+            "command": "C:\\Program Files\\nodejs\\npx.cmd",
+            "args": [
+                "-y",
+                "ctx7",
+                "setup",
+                "--mcp",
+                "--vscode",
+                "--project"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": true
+            }
+        },
+        {
+            "label": "PROXTEL: Crear proyecto",
+            "type": "shell",
+            "command": "C:\\Users\\MSI\\AppData\\Local\\PROXTEL\\bin\\proxtel.cmd",
+            "args": [
+                "new",
+                "-Name",
+                "${input:projectName}",
+                "-Type",
+                "${input:projectType}",
+                "-Path",
+                "${input:projectPath}",
+                "-Stack",
+                "${input:projectStack}"
+            ],
+            "options": {
+                "shell": {
+                    "executable": "C:\\Windows\\System32\\cmd.exe",
+                    "args": [
+                        "/d",
+                        "/c"
+                    ]
+                }
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        },
+        {
+            "label": "PROXTEL: Enrutar solicitud",
+            "type": "shell",
+            "command": "C:\\Users\\MSI\\AppData\\Local\\PROXTEL\\bin\\proxtel.cmd",
+            "args": [
+                "route",
+                "-Project",
+                "${input:existingProjectPath}",
+                "-Request",
+                "${input:taskRequest}"
+            ],
+            "options": {
+                "shell": {
+                    "executable": "C:\\Windows\\System32\\cmd.exe",
+                    "args": [
+                        "/d",
+                        "/c"
+                    ]
+                }
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        },
+        {
+            "label": "PROXTEL: Crear tarea",
+            "type": "shell",
+            "command": "C:\\Users\\MSI\\AppData\\Local\\PROXTEL\\bin\\proxtel.cmd",
+            "args": [
+                "task",
+                "-Project",
+                "${input:existingProjectPath}",
+                "-Title",
+                "${input:taskTitle}",
+                "-Request",
+                "${input:taskRequest}"
+            ],
+            "options": {
+                "shell": {
+                    "executable": "C:\\Windows\\System32\\cmd.exe",
+                    "args": [
+                        "/d",
+                        "/c"
+                    ]
+                }
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        },
+        {
+            "label": "PROXTEL: Generar contexto para ChatGPT",
+            "type": "process",
+            "command": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+            "args": [
+                "-NoLogo",
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}\\scripts\\proxtel-chat-context.ps1",
+                "-Project",
+                "${input:existingProjectPath}"
+            ],
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "projectName",
+            "type": "promptString",
+            "description": "Nombre del nuevo proyecto",
+            "default": "TRD Station"
+        },
+        {
+            "id": "projectType",
+            "type": "pickString",
+            "description": "Tipo de proyecto PROXTEL",
+            "options": [
+                "generic",
+                "website",
+                "laravel-web",
+                "crm",
+                "webtrader",
+                "pbx",
+                "api",
+                "automation"
+            ],
+            "default": "webtrader"
+        },
+        {
+            "id": "projectPath",
+            "type": "promptString",
+            "description": "Ruta donde se creará el proyecto",
+            "default": "C:\\DEV\\WEBS\\trdstation"
+        },
+        {
+            "id": "projectStack",
+            "type": "promptString",
+            "description": "Stack principal",
+            "default": "Laravel + React/TypeScript + MySQL"
+        },
+        {
+            "id": "existingProjectPath",
+            "type": "promptString",
+            "description": "Ruta del proyecto PROXTEL",
+            "default": "C:\\DEV\\WEBS\\trdstation"
+        },
+        {
+            "id": "taskTitle",
+            "type": "promptString",
+            "description": "Nombre de la tarea",
+            "default": "Arquitectura inicial"
+        },
+        {
+            "id": "taskRequest",
+            "type": "promptString",
+            "description": "¿Qué quieres que haga la Agencia?",
+            "default": "Diseñar la arquitectura inicial profesional del proyecto"
+        }
+    ]
+}
