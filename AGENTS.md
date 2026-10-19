@@ -1,11 +1,13 @@
 # PROXTEL AI AGENCY — Reglas maestras
 
-Este archivo es la única fuente de verdad de la agencia. Todos los agentes
-(Claude Code, Codex, Antigravity) lo leen al arrancar. CLAUDE.md y GEMINI.md
-solo lo importan. Si hay conflicto entre este archivo y un AGENTS.md de
-proyecto, gana el más cercano al código que se está editando.
+Única fuente de verdad de la agencia. Todos los agentes (Claude Code, Codex,
+Antigravity) lo leen al arrancar. CLAUDE.md y GEMINI.md solo lo importan.
+Si hay conflicto entre este archivo y un AGENTS.md de proyecto, gana el más
+cercano al código que se está editando.
 
-Documento de arquitectura aprobado: docs/architecture-v3.md
+Arquitectura aprobada: docs/architecture-v3.md
+Estado de skills (máquina-legible): skills/_registry/skills-registry.json
+Catálogo documental: skills/registry.md
 
 ---
 
@@ -21,11 +23,36 @@ FreePBX, PJSIP, WebRTC), desarrollo web, campañas de Ads.
 
 ---
 
+## Arquitectura por capas
+
+    CAPA 4 — POLÍTICA (V3, este archivo + standards/)
+      Define CÓMO trabajan las IAs juntas.
+
+    CAPA 3 — ORQUESTACIÓN (V2, certificada)
+      agents/development/proxtel-development-orchestrator/
+      agents/development/subagents/*
+      adapters/{claude,codex,antigravity}/
+      workflows/{core,development}/
+      Define QUIÉN ejecuta qué y cómo se coordina.
+
+    CAPA 2 — SKILLS (V2, certificada)
+      skills/core/* + skills/development/* + skills/base/*
+      skills/_registry/skills-registry.json
+      Define CON QUÉ se ejecuta.
+
+    CAPA 1 — PROYECTOS DE CLIENTES
+      i-Tkt, TRDStation, PROXTEL PBX, nuevos.
+      Cada uno con su PROJECT-SKILLS.md.
+
+---
+
 ## Stack por defecto
 
 - Backend: PHP 8.x + Laravel (por defecto). Node.js cuando el proyecto lo exija.
 - Frontend: Blade + Tailwind por defecto. React/Inertia/Vue si el proyecto lo declara.
-- BD: MySQL/MariaDB por defecto. PostgreSQL si el proyecto lo declara.
+- BD: MySQL 8.x instalado directamente en la PC (no Laragon, no entornos virtuales).
+  PostgreSQL si el proyecto lo declara.
+- Runtime PHP: Laravel Herd. Administración BD: TablePlus.
 - Trading: librerías TradingView (widget o lightweight-charts según proyecto).
 - Telefonía: Asterisk/FreePBX, PJSIP, AMI, dialplan, WebRTC.
 - Testing: PHPUnit (backend), Playwright (E2E), Vitest (frontend si aplica).
@@ -58,48 +85,53 @@ QA navegador:
 ## Ciclo operativo obligatorio por tarea
 
 Ninguna tarea se considera terminada sin pasar los 5 pasos en orden. Evidencia
-en .agency-local/audit/T-XXXX/.
+en .agency-local/audit/T-XXXX/. Ver docs/architecture-v3.md sección 2.
 
-1. Claude planifica
-   - Entregable: 01-plan.md con alcance, archivos afectados, criterios de aceptación.
-2. Codex implementa backend
-   - Worktree: task/T-XXXX-api
-   - Entregable: 02-codex.md con diff, tests ejecutados y resultado (CODEX_PASS/FAIL/BLOCKED).
-3. Antigravity implementa frontend
-   - Worktree: task/T-XXXX-ui
-   - Entregable: 03-google.md con commits, tests y resultado (FRONTEND_PASS/FAIL/BLOCKED).
-4. Claude ejecuta /review
-   - Gate técnico obligatorio. Revisa el diff completo de las ramas de implementación.
-   - Entregable: 04-claude-review.md con dictamen REVIEW_PASS/FAIL/BLOCKED.
-5. Playwright + Vic auditan
-   - Playwright valida comportamiento y genera capturas/trazas.
-   - Vic revisa las capturas y aprueba visualmente.
-   - Entregable: 05-playwright.md con QA_PASS/FAIL/BLOCKED y VISUAL_PASS/FAIL/BLOCKED.
-   - Ambos deben ser PASS para cerrar.
+1. Claude planifica → 01-plan.md
+2. Codex implementa backend (worktree task/T-XXXX-api) → 02-codex.md
+3. Antigravity implementa frontend (worktree task/T-XXXX-ui) → 03-google.md
+4. Claude ejecuta /review (gate técnico obligatorio) → 04-claude-review.md
+5. Playwright + Vic auditan → 05-playwright.md (QA_PASS + VISUAL_PASS)
 
 Cierre formal: Claude escribe 06-certification.yaml con todos los gates PASS y
 evidencias reales. Sin ese archivo, no se solicita merge a main a Vic.
+
+El orchestrator V2 (proxtel-development-orchestrator) implementa este ciclo a
+nivel de agentes. El ciclo V3 es la política; el orchestrator V2 es la ejecución.
 
 ---
 
 ## Reglas duras
 
 - Ningún agente escribe directamente en main. Todo pasa por rama + merge autorizado por Vic.
-- Si el agente no sabe en qué nivel de permiso está una acción, la trata como Nivel B (ver standards/permissions.md).
-- Nunca inventar resultados de tests, auditorías, despliegues o validaciones. Si no se ejecutó, se dice.
-- Preservar cambios existentes antes de operaciones potencialmente destructivas (git reset --hard, git clean -fd, force push = Nivel B).
+- Si el agente no sabe en qué nivel de permiso está una acción, la trata como Nivel B (standards/permissions.md).
+- Nunca inventar resultados de tests, auditorías, despliegues o validaciones.
+- Preservar cambios existentes antes de operaciones destructivas (git reset --hard, git clean -fd, force push = Nivel B).
 - .agency-local/ y worktrees/ son locales por máquina. Nunca se sincronizan por Git.
 - Secretos fuera de Git. .env reales y secrets/ están en .gitignore.
 - Si Claude no puede completar el /review obligatorio, se bloquea la promoción a QA. No se sustituye silenciosamente por otra IA.
+- No tocar los archivos protegidos en .gitattributes con -text -eol. Son certificaciones byte-exact del V2.
 
 ---
 
 ## Skills y agentes on-demand
 
-- El catálogo vive en skills/registry.md. Ninguna skill se activa sin estar registrada.
+- Catálogo documental: skills/registry.md. Estado máquina-legible: skills/_registry/skills-registry.json.
 - Cada proyecto declara sus skills activas en PROJECT-SKILLS.md (raíz del repo del cliente).
 - Los agentes cargan solo las skills declaradas en PROJECT-SKILLS.md + las marcadas globales en el registry.
-- Regla de promoción: una skill se vuelve global solo tras 3 usos en 2 proyectos distintos y pasar por Skill Factory.
+- Regla de promoción: una skill se vuelve global solo tras 3 usos en 2 proyectos distintos y pasar por Skill Factory (proxtel-skill-creator).
+- Template de PROJECT-SKILLS.md: templates/PROJECT-SKILLS.md.
+
+---
+
+## Adapters de proveedores
+
+- adapters/claude/adapter.json
+- adapters/codex/adapter.json
+- adapters/antigravity/adapter.json
+
+Especificación: config/schemas/proxtel-provider-adapter.schema.json.
+Estado: aprobados en Área 1.2. No modificar sin certificación.
 
 ---
 
@@ -113,11 +145,14 @@ Anthropic y OpenAI.
 
 ## Referencias
 
-- docs/architecture-v3.md — arquitectura aprobada
+- docs/architecture-v3.md — arquitectura aprobada V1+V2+V3
+- README.md — overview del sistema completo
 - standards/permissions.md — niveles A/B
 - standards/qa-handoff.md — convención .agency-local/audit/
 - standards/concurrency.md — worktrees y ramas
 - standards/dual-machine.md — sync PC ↔ Mac
 - standards/chatgpt-brief.md — protocolo con ChatGPT
-- skills/registry.md — catálogo de skills
+- skills/registry.md — catálogo documental
+- skills/_registry/skills-registry.json — estado máquina-legible V2
 - tools/quota-log.md — control de cuotas
+- templates/PROJECT-SKILLS.md — template para proyectos de clientes
