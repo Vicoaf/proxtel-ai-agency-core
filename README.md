@@ -66,9 +66,9 @@ Perfil: PROXTEL AI Agency
 
 - Claude Code — orquestador, revisión de código, /review (V3)
 - OpenAI Codex — implementación backend (V2/V3)
-- Google Antigravity — implementación frontend + auditor visual (V2/V3)
+- Google Antigravity — implementación frontend (la auditoría visual independiente la realiza Vic sobre capturas de Playwright)
 - ChatGPT — arquitectura estratégica, sin acceso al repo (V3)
-- Playwright MCP — QA funcional en navegador (V3)
+- Playwright MCP — QA funcional en navegador (MCP operativo en V2; participación certificada en el ciclo V3 pendiente de integración con adapter Claude)
 
 ### Backend
 
@@ -151,7 +151,11 @@ Detalle completo en `skills/registry.md` y `skills/_registry/skills-registry.jso
 - 6 subagentes: architecture-specialist, backend-specialist, database-specialist,
   frontend-specialist, qa-browser-specialist, security-reviewer
 
+Los 6 subagentes son roles internos ejecutables por el orchestrator V2, no agentes autónomos independientes ni departamentos V3. Los 9 departamentos descritos en la visión original NO están implementados; solo CORE y DEVELOPMENT están parcialmente operativos.
+
 Certificaciones en `tests/integration/*` y `tests/skills/*`.
+
+**Nota:** Área 1.6 certifica el orchestrator y workflow de desarrollo, pero NO certifica la ejecución integral del ciclo de 5 pasos V3. Esa integración se certificará en semana 2 con el adapter de Claude.
 
 ---
 
@@ -162,7 +166,8 @@ Certificaciones en `tests/integration/*` y `tests/skills/*`.
 - `adapters/antigravity/adapter.json`
 
 Especificación común: `config/schemas/proxtel-provider-adapter.schema.json`.
-Estado: aprobados en Área 1.2.
+
+Estado: Codex y Antigravity certificados en Área 1.2. Claude Code en estado `candidate / not-executed` (v0.1.0, CLI v2.1.268 verificada). El adapter de Claude no se ha ejecutado en modo no-interactivo; el ciclo de 5 pasos no es 100% automatizable hasta certificarlo (previsto semana 2).
 
 ---
 
@@ -187,7 +192,8 @@ Ver `AGENTS.md` y `docs/architecture-v3.md` para el ciclo operativo completo de 
 
 Nunca se despliega directamente a producción sin autorización explícita de Vic.
 
-Flujo obligatorio: desarrollo local → staging → producción.
+Flujo obligatorio: desarrollo local → producción, con staging intermedio cuando el proyecto lo requiera (según contrato de despliegue de cada cliente). Nunca deploy directo sin autorización de Vic.
+
 El merge a main solo ocurre desde la PC maestra con autorización de Vic.
 
 ---
@@ -207,7 +213,7 @@ mediante `bootstrap/windows-setup.ps1` y `bootstrap/mac-setup.sh`.
 ## Dual machine
 
 - PC Windows = máquina maestra. Autoriza merges a main.
-- MacBook Pro = réplica de trabajo. Solo push a ramas mac/*.
+- MacBook Pro = réplica de trabajo. Trabaja en ramas `task/T-XXXX-*` o `mac/task-T-XXXX`; una sola máquina escritora activa por rama. Merge a main solo desde PC.
 - Sync solo por Git. Prohibido iCloud, Dropbox, OneDrive, Google Drive.
 - Detalle completo en `standards/dual-machine.md`.
 
@@ -223,3 +229,5 @@ mediante `bootstrap/windows-setup.ps1` y `bootstrap/mac-setup.sh`.
 - `standards/chatgpt-brief.md` — protocolo con ChatGPT
 - `tools/quota-log.md` — control de cuotas de las 3 IAs
 - `skills/registry.md` — catálogo documental de skills
+
+README-OK
