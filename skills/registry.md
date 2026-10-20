@@ -40,6 +40,14 @@ skills/_legacy/base/ el 2026-10-20 para evitar duplicacion con skills/developmen
 **Regla:** development/ es canonico. _legacy/base/ es evidencia historica de
 provenance. Ningun agente carga _legacy/ automaticamente.
 
+## Politica de skills legacy (base/)
+
+Las versiones legacy de las skills (antes en skills/base/) fueron movidas a
+skills/_legacy/base/ el 2026-10-20 para evitar duplicacion con skills/development/.
+
+**Regla:** development/ es canonico. _legacy/base/ es evidencia historica de
+provenance. Ningun agente carga _legacy/ automaticamente.
+
 ## Skills baseline (core, no promovidas)
 
 Skills existentes preservadas como baseline. Pueden evolucionar mediante
@@ -115,4 +123,5 @@ skills/_registry/skills-registry.json las autorice.
 Las skills globales son reutilizables, pero los contextos de clientes no se
 comparten. Una skill no puede transportar credenciales, configuraciones privadas
 ni datos de una PBX de un cliente a otra.
+
 
