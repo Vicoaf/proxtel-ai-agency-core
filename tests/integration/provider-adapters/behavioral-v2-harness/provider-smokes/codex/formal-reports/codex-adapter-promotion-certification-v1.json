@@ -1,0 +1,101 @@
+{
+    "schema_version": "1.0",
+    "kind": "proxtel-provider-adapter-promotion-certification",
+    "report_id": "PROXTEL-AREA-1.2-CODEX-ADAPTER-PROMOTION-CERTIFICATION-V1",
+    "area": "1.2",
+    "provider": "codex",
+    "adapter_id": "codex",
+    "documented_utc": "2026-10-20T23:00:00Z",
+    "promoted_by": "Vic (CEO, PROXTEL AI Agency)",
+    "promotion_scope": "candidate-to-approved",
+
+    "requirements_check": {
+        "R1_smoke_test_pass": {
+            "status": "SATISFIED",
+            "evidence": "tests/integration/provider-adapters/behavioral-v2-harness/provider-smokes/codex/packet-c32-v1",
+            "certification_status": "CERTIFIED",
+            "structured_output_result": "PASS",
+            "packet_id": "PROXTEL-AREA-1.2-CODEX-ADAPTER-LIVE-SMOKE-C32-V1",
+            "duration_seconds": 8.37
+        },
+        "R2_governance": {
+            "status": "SATISFIED",
+            "previous_attempt_cleaned": "C9-fix2 failure analyzed, corrected in C32",
+            "root_cause_of_previous_failure": "benchmark_expectation_too_strict + prompt_semantic_contamination"
+        },
+        "R3_current_version_verification": {
+            "status": "SATISFIED",
+            "method": "codex-exec-packet-c32",
+            "executed_utc": "2026-10-20T22:50:00Z",
+            "cli_version_tested": "codex-cli 0.154.0",
+            "cli_ps1_sha256": "0C149DB80ED0BF442C810146B0AD0163B74982FE4542D673F56C354D7B8229CB",
+            "prompt_source": "tests/integration/provider-adapters/behavioral-v2-harness/provider-smokes/codex/packet-c32-v1/smoke-prompt.txt",
+            "schema_source": "tests/integration/provider-adapters/behavioral-v2-harness/provider-smokes/codex/packet-c32-v1/smoke-response.schema.json",
+            "fields_verified": "7/7",
+            "result": "PASS"
+        },
+        "R4_authorization_vic": {
+            "status": "SATISFIED",
+            "evidence": "AUTHORIZATION-ADAPTER-CODEX.md",
+            "authorized_by": "Vic (CEO, PROXTEL AI Agency)",
+            "authorized_utc": "2026-10-20T23:00:00Z"
+        },
+        "R5_promotion_certification": {
+            "status": "SATISFIED",
+            "evidence": "tests/integration/provider-adapters/behavioral-v2-harness/provider-smokes/codex/formal-reports/codex-adapter-promotion-certification-v1.json",
+            "self_reference": true
+        }
+    },
+
+    "packet_c32": {
+        "packet_id": "PROXTEL-AREA-1.2-CODEX-ADAPTER-LIVE-SMOKE-C32-V1",
+        "path": "tests/integration/provider-adapters/behavioral-v2-harness/provider-smokes/codex/packet-c32-v1",
+        "consumed": true,
+        "rerun_allowed": false,
+        "result": "PASS",
+        "executed_utc": "2026-10-20T22:50:00Z",
+        "duration_seconds": 8.37,
+        "hashes": {
+            "prompt_sha256": "7CC776F5D44C281E1566F904A4E5F9CA3807013DDA096035445DB051F8C4C97A",
+            "schema_sha256": "C7DAC2A909F763A3ED0AFFBD26CD9D0FE554551B4DCA20F88D65E1AB54B25E5E",
+            "run_once_sha256": "152072B01244B08783D9BA8EB2EF74EE5B52D20B73ACBE1B21AA2E064A4C8E0C",
+            "validator_sha256": "obsoleto-por-consumo",
+            "adapter_snapshot_sha256": "F1A820C848C45160CD2E92B468910B216AE05C308294714C9A96F8A087F007D0"
+        }
+    },
+
+    "historical_cleanup": {
+        "previous_failed_packet": "C9-fix2",
+        "previous_result": "FAIL_BEHAVIOR",
+        "root_cause_confirmed": "benchmark_expectation_too_strict + prompt_semantic_contamination",
+        "resolution": "C32 usa transporte puro (549-byte prompt) sin embeber Skill ni metodologia",
+        "lessons_documented": "F18 en docs/lessons/pilot-day4-5.md"
+    },
+
+    "adapter_change": {
+        "adapter_path": "adapters/codex/adapter.json",
+        "adapter_sha256_before": "F1A820C848C45160CD2E92B468910B216AE05C308294714C9A96F8A087F007D0",
+        "adapter_sha256_after": "PENDIENTE-DE-COMPUTAR",
+        "lifecycle_state_before": "candidate",
+        "lifecycle_state_after": "approved",
+        "execution_status_before": "not-executed",
+        "execution_status_after": "live-tested",
+        "observed_version_before": "codex-cli 0.154.0",
+        "observed_version_after": "codex-cli 0.154.0",
+        "fields_modified": 6,
+        "fields_added": ["lifecycle.approved_utc", "lifecycle.certification_ref"],
+        "fields_untouched": ["prompt_transport", "structured_output", "execution_context", "evidence"],
+        "field_corrected": "safety.permission_control (--ask-for-approval no existe en codex exec)"
+    },
+
+    "authorization_ref": "AUTHORIZATION-ADAPTER-CODEX.md",
+    "git_tag": "codex-adapter-approved-v1",
+    "rollback_procedure": "See standards/adapter-promotion.md section 'Reglas duras' point 6",
+
+    "governance": {
+        "skill_promotion_to_approved": false,
+        "adapter_lifecycle_modified": true,
+        "adapter_lifecycle_modification_authorized": true,
+        "note": "Tercer adapter promovido a approved. Claude y Antigravity ya estaban approved. Los 3 adapters operativos."
+    }
+}

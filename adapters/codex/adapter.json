@@ -4,9 +4,11 @@
     "id":  "codex",
     "provider":  "codex",
     "lifecycle":  {
-                      "state":  "candidate",
+                      "state":  "approved",
                       "version":  "0.1.0",
-                      "execution_status":  "not-executed"
+                      "execution_status":  "live-tested",
+                      "approved_utc":  "2026-10-20T23:00:00Z",
+                      "certification_ref":  "tests/integration/provider-adapters/behavioral-v2-harness/provider-smokes/codex/formal-reports/codex-adapter-promotion-certification-v1.json"
                   },
     "cli":  {
                 "command":  "codex",
@@ -35,7 +37,7 @@
                               "mode_selection":  null
                           },
     "safety":  {
-                   "permission_control":  "--ask-for-approval (observed in top-level CLI; exact exec binding not yet live-tested)",
+                   "permission_control":  "not-applicable (codex exec no expone aprobaciones interactivas; --ask-for-approval solo existe en codex top-level)",
                    "dangerous_bypass_flag":  "--dangerously-bypass-approvals-and-sandbox",
                    "dangerous_bypass_forbidden":  true,
                    "benchmark_default":  "sandbox required; dangerous bypass forbidden",
