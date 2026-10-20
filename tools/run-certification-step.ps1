@@ -29,6 +29,11 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
+# F13: Forzar UTF-8 en el output de PowerShell (arregla mojibake en git diff)
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$OutputEncoding = [System.Text.Encoding]::UTF8
+$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'
+
 $ClaudeExe = "C:\Users\MSI\AppData\Roaming\npm\node_modules\@anthropic-ai\claude-code\bin\claude.exe"
 
 $AuditDir            = Join-Path $WorkingDir ".agency-local\audit\$TaskId"
