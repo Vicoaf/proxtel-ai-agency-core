@@ -194,3 +194,28 @@ nada para empezar.
 - Claude detecto una anomalia temporal en T-0001 (QA anterior al review) que el asistido no vio. Confirmada por Vic como artefacto del D4. Documentada en `CONFIRMACION-ANOMALIA-TEMPORAL.md` y `F12`.
 - **Resultado:** 2 de 5 pasos del ciclo V3 automatizados (`review` + `certification`). Los otros 3 (plan, frontend, QA) siguen asistidos.
 - Coste total del D4: ~$0.08 de cuota Claude (17.66s + 10.61s).
+
+### Semana 2 - D5: Decision de migracion (completado)
+
+- Diagnostico de readiness: los unicos repos Git con proyectos son el Core y el piloto descartable.
+- `i-Tkt`, `TRDStation` y `PROXTEL-PBX` no existen como repos Git en `C:\DEV\`.
+- **Decision: NO-GO** documentada en `docs/decisions/D5-migration-decision.md`.
+- Criterios C1-C5 definidos para cuando aparezca el primer proyecto real.
+- Estado de la agencia: operativa al 80% (Core completo, 2/6 pasos automatizados, piloto certificado).
+- Pendientes antes del primer cliente: certificar Codex y Antigravity si la tarea los requiere.
+
+---
+
+## Estado final de la Semana 2
+
+| Dia | Estado |
+|---|---|
+| D1 - Verificacion del piloto | COMPLETADO |
+| D2 - Correcciones F1-F9 + herramientas | COMPLETADO |
+| D3 - Adapter Claude promovido a approved | COMPLETADO |
+| D4 - Orchestrator + 2/6 pasos automatizados | COMPLETADO |
+| D5 - Decision NO-GO justificada | COMPLETADO |
+
+**La agencia esta lista para recibir su primer cliente real.**
+
+Tag de cierre: `v3-semana2-completa`
