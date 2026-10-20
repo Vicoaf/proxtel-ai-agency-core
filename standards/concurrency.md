@@ -108,3 +108,16 @@ sincroniza por Git. Es local por máquina.
 
 Los worktrees viven fuera del árbol del repo, por lo que no necesitan
 .gitignore (Git los gestiona por su cuenta con git worktree list).
+
+---
+
+## Herramientas externas (`_piloto-tools/`)
+
+- **Windows:** `C:\DEV\_piloto-tools\`
+- **Mac:** `~/DEV/_piloto-tools/`
+- **No se versiona en Git.** Vive fuera del Core y de cualquier proyecto.
+- **No se replica dentro de proyectos.** Se accede vía `NODE_PATH`.
+- **No contiene evidencias ni secretos.**
+
+Ver `docs/lessons/pilot-day4-5.md` sección F4 y `README.md` sección
+"Herramientas externas".

@@ -1,4 +1,4 @@
-﻿# PROXTEL AI Agency Development System
+# PROXTEL AI Agency Development System
 
 Sistema maestro de desarrollo asistido por IA para proyectos web, Laravel, CRM,
 plataformas de trading, telefonía IP y SaaS.
@@ -105,7 +105,7 @@ se incorporan únicamente cuando el proyecto las justifique.
     docs/             Documentación técnica (arquitectura, lecciones, etc.)
     scripts/          Instalación, sincronización y validación
     skills/           Skills certificadas + registry.md + _registry/skills-registry.json
-    standards/        Políticas V3 (permissions, qa-handoff, concurrency, dual-machine, chatgpt-brief)
+    standards/        Políticas V3 (permissions, qa-handoff, concurrency, dual-machine, chatgpt-brief, pre-flight-checks)
     templates/        Plantillas de proyectos (crm, landing-page, laravel, saas, website)
     tests/            Tests de integración y certificaciones del V2
     tools/            quota-log.md y utilidades deterministas
@@ -227,6 +227,7 @@ mediante `bootstrap/windows-setup.ps1` y `bootstrap/mac-setup.sh`.
 - `standards/concurrency.md` — worktrees y ramas
 - `standards/dual-machine.md` — PC ↔ Mac
 - `standards/chatgpt-brief.md` — protocolo con ChatGPT
+- `standards/pre-flight-checks.md` — verificaciones obligatorias antes de iniciar tareas
 - `tools/quota-log.md` — control de cuotas de las 3 IAs
 - `skills/registry.md` — catálogo documental de skills
 
@@ -258,3 +259,28 @@ Antes de empezar cualquier trabajo nuevo, leer `docs/STATUS.md`.
 El piloto T-0001 (landing `piloto-v3`) está certificado en `C:\DEV\piloto-v3\`
 con tag `t-0001-certified`. Sirve como referencia de ejecución del ciclo V3
 en modo asistido.
+
+---
+
+## Herramientas externas (`_piloto-tools/`)
+
+Directorio oficial para herramientas de QA y utilidades Node que NO deben
+contaminar los proyectos vanilla. Vive fuera del Core y fuera de los proyectos
+de clientes.
+
+- **Ubicación Windows:** `C:\DEV\_piloto-tools\`
+- **Ubicación Mac:** `~/DEV/_piloto-tools/`
+- **Contenido:** Playwright (`playwright` + `playwright-core`) + utilidades Node.
+- **Qué NO contiene:** código de proyectos, evidencias, secretos.
+
+### Uso desde un proyecto
+
+    cd C:\DEV\<proyecto>\<worktree-de-tarea>
+    $env:NODE_PATH = "C:\DEV\_piloto-tools\node_modules"
+    node .agency-local\audit\T-XXXX\capture.js
+
+### Por qué existe (fricción F4)
+
+En el piloto T-0001, Playwright estaba solo en la caché de `npx` y no era
+accesible desde `require('playwright')`. Ver `docs/lessons/pilot-day4-5.md`
+sección F4 para el detalle completo.
