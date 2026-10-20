@@ -34,3 +34,11 @@ worktrees/
 tests/integration/
 .agents/
 .playwright-mcp/
+
+# Excepciones: certificaciones formales SI se versionan (son evidencia auditable)
+!tests/integration/provider-adapters/behavioral-v2-harness/provider-smokes/*/formal-reports/
+
+# Backups locales de trabajo: nunca versionar
+*.backup-candidate
+*.backup
+*.bak

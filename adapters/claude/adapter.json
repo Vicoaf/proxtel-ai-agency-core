@@ -4,13 +4,15 @@
     "id":  "claude",
     "provider":  "claude",
     "lifecycle":  {
-                      "state":  "candidate",
+                      "state":  "approved",
                       "version":  "0.1.0",
-                      "execution_status":  "not-executed"
+                      "execution_status":  "live-tested",
+                      "approved_utc":  "2026-10-20T17:01:51Z",
+                      "certification_ref":  "tests/integration/provider-adapters/behavioral-v2-harness/provider-smokes/claude/formal-reports/claude-adapter-promotion-certification-v1.json"
                   },
     "cli":  {
                 "command":  "claude",
-                "observed_version":  "2.1.268 (Claude Code)",
+                "observed_version":  "2.1.284 (Claude Code)",
                 "command_type":  "ExternalScript",
                 "source":  "C:\\Users\\MSI\\AppData\\Roaming\\npm\\node_modules\\@anthropic-ai\\claude-code\\bin\\claude.exe"
             },

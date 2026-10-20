@@ -1,0 +1,90 @@
+{
+    "schema_version": "1.0",
+    "kind": "proxtel-provider-adapter-promotion-certification",
+    "report_id": "PROXTEL-AREA-1.2-CLAUDE-ADAPTER-PROMOTION-CERTIFICATION-V1",
+    "area": "1.2",
+    "provider": "claude",
+    "adapter_id": "claude",
+    "documented_utc": "2026-10-20T17:01:51Z",
+    "promoted_by": "Vic (CEO, PROXTEL AI Agency)",
+    "promotion_scope": "candidate-to-approved",
+
+    "requirements_check": {
+        "R1_smoke_test_pass": {
+            "status": "SATISFIED",
+            "evidence": "tests/integration/provider-adapters/behavioral-v2-harness/provider-smokes/claude/formal-reports/claude-native-live-smoke-c18-certification-v1.json",
+            "certification_status": "CERTIFIED",
+            "structured_output_result": "PASS"
+        },
+        "R2_governance_satisfied": {
+            "status": "SATISFIED",
+            "evidence": [
+                "PROXTEL-AREA-1.2-CLAUDE-NATIVE-LIVE-SMOKE-C18-CERTIFICATION-V1",
+                "PROXTEL-AREA-1.2-ANTIGRAVITY-1.2.6-LIVE-SMOKE-C31-CERTIFICATION-V1"
+            ],
+            "required_action_3_claude_portion": "SATISFIED",
+            "required_action_3_antigravity_portion": "SATISFIED",
+            "required_action_3_overall": "SATISFIED"
+        },
+        "R3_current_version_verification": {
+            "status": "SATISFIED",
+            "method": "manual-inline-smoke-with-current-cli",
+            "executed_utc": "2026-10-20T17:01:51Z",
+            "cli_version_tested": "2.1.284 (Claude Code)",
+            "prompt_source": "tests/integration/provider-adapters/behavioral-v2-harness/provider-smokes/claude/packet-c18-native-v1/smoke-prompt.txt",
+            "schema_source": "tests/integration/provider-adapters/behavioral-v2-harness/provider-smokes/claude/packet-c18-native-v1/smoke-response.schema.json",
+            "fields_verified": "7/7",
+            "result": "PASS"
+        },
+        "R4_authorization_vic": {
+            "status": "SATISFIED",
+            "evidence": "AUTHORIZATION-ADAPTER-CLAUDE.md",
+            "authorized_by": "Vic (CEO, PROXTEL AI Agency)",
+            "authorized_utc": "2026-10-20T17:01:51Z"
+        },
+        "R5_promotion_certification": {
+            "status": "SATISFIED",
+            "evidence": "tests/integration/provider-adapters/behavioral-v2-harness/provider-smokes/claude/formal-reports/claude-adapter-promotion-certification-v1.json",
+            "self_reference": true
+        }
+    },
+
+    "version_drift": {
+        "smoke_test_version": "2.1.268 (Claude Code)",
+        "smoke_test_exe_sha256": "1E472BCFD49449E73EF76698C87F6583055AEB88DC41CA190A9C12C6791B5EEA",
+        "promotion_version": "2.1.284 (Claude Code)",
+        "promotion_exe_sha256": "0416631E846F743110DA5282409776FA1313E65F33A588AAE066EAF8DB0FDA7D",
+        "binary_changed": true,
+        "mitigation": "Inline verification 7/7 PASS with current CLI on 2026-10-20T17:01:51Z",
+        "documented": true
+    },
+
+    "adapter_change": {
+        "adapter_path": "adapters/claude/adapter.json",
+        "adapter_sha256_before": "01219D3DE55632374E152DE0038544E9E9395DA1C952CBBE7253E8A201230A43",
+        "adapter_sha256_after": "CCE092345DEAE5395BC920ED7D83437668FF1F9D0474D35825581E7AD02DB94E",
+        "lifecycle_state_before": "candidate",
+        "lifecycle_state_after": "approved",
+        "execution_status_before": "not-executed",
+        "execution_status_after": "live-tested",
+        "observed_version_before": "2.1.268 (Claude Code)",
+        "observed_version_after": "2.1.284 (Claude Code)",
+        "fields_modified": 5,
+        "fields_added": ["lifecycle.approved_utc", "lifecycle.certification_ref"],
+        "fields_untouched": ["prompt_transport", "structured_output", "execution_context", "safety", "evidence"]
+    },
+
+    "authorization_ref": "AUTHORIZATION-ADAPTER-CLAUDE.md",
+    "git_commit_sha": "recorded-by-tag-claude-adapter-approved-v1",
+    "git_tag": "claude-adapter-approved-v1",
+
+    "rollback_procedure": "See standards/adapter-promotion.md section 'Reglas duras' point 6",
+
+    "governance": {
+        "skill_promotion_to_approved": false,
+        "adapter_lifecycle_modified": true,
+        "adapter_lifecycle_modification_authorized": true,
+        "commit_created": true,
+        "note": "This is the first adapter promoted to approved in the PROXTEL AI Agency. Codex and Antigravity remain in candidate pending their own promotion cycles."
+    }
+}
