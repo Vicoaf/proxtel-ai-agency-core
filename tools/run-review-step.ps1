@@ -29,6 +29,7 @@
 param(
     [Parameter(Mandatory=$true)][string]$TaskId,
     [Parameter(Mandatory=$true)][string]$WorkingDir,
+    [string]$BaseRef = "",
     [switch]$SkipPreflight
 )
 
@@ -120,14 +121,19 @@ if (-not $SkipPreflight) {
         Write-Log "OK: candidate commit = $candidateCommit"
 
         # 5. Diff disponible
-        $diffStat = git diff main..HEAD --stat 2>&1
+        if ($BaseRef) {
+            $baseCommit = $BaseRef
+        } else {
+            $baseCommit = (git merge-base main HEAD 2>&1 | Out-String).Trim()
+        }
+        $diffStat = git diff "$baseCommit..HEAD" --stat 2>&1
         if (-not $diffStat) {
             Fail-Preflight "Diff main..HEAD vacio. Nada que revisar."
         }
         Write-Log "OK: diff disponible"
 
         # Leer el diff completo
-        $fullDiff = git diff main..HEAD 2>&1 | Out-String
+        $fullDiff = git diff "$baseCommit..HEAD" 2>&1 | Out-String
         Write-Log "Diff leido: $($fullDiff.Length) chars"
 
     } finally {
@@ -138,7 +144,7 @@ if (-not $SkipPreflight) {
     Push-Location $WorkingDir
     try {
         $candidateCommit = (git rev-parse HEAD 2>&1 | Out-String).Trim()
-        $fullDiff = git diff main..HEAD 2>&1 | Out-String
+        $fullDiff = git diff "$baseCommit..HEAD" 2>&1 | Out-String
     } finally {
         Pop-Location
     }
@@ -405,7 +411,7 @@ task_id: $TaskId
 reviewer: Claude Code (orchestrator automated)
 reviewed_utc: $((Get-Date).ToUniversalTime().ToString('yyyy-MM-ddTHH:mm:ssZ'))
 candidate_commit: $($so.candidate_commit)
-base_commit: $(git rev-parse main 2>`$null | Out-String).Trim()
+base_commit: $baseCommit
 
 archivos_revisados:
   - index.html
