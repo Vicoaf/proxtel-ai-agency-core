@@ -69,6 +69,17 @@ Estado del Core: OPERATIVO (piloto certificado)
 - ✅ Backup del piloto en `C:\DEV\_backups\piloto-t-0001-2026-10-19.zip` (opción C)
 - Veredicto: **el piloto T-0001 está formalmente verificado y conciliado**
 
+### Semana 2 — D2: Correcciones de fricciones F1-F6 + documentación F8 (completado)
+
+- ✅ `standards/pre-flight-checks.md` (278 líneas): consolida F1, F3, F5, F6, F8 en 4 fases ejecutables (A, B, C, D) + 2 pitfalls de PowerShell
+- ✅ `AGENTS.md` +2 reglas duras: F2 (Write en Windows) y F3 (pitfall PowerShell)
+- ✅ `README.md` + `standards/concurrency.md`: formalizado `_piloto-tools/` como directorio externo de QA (F4)
+- ✅ `tools/check-project-skills.ps1` (144 líneas): valida integridad estructural de `PROJECT-SKILLS.md`. Probado con PASS (2223 bytes) y FAIL (18 bytes, simula el bug del piloto)
+- ✅ `templates/START-TASK.md` (209 líneas): checklist de inicio de tarea que referencia todas las herramientas nuevas
+- Veredicto: **las 8 fricciones del piloto T-0001 tienen mitigación documentada y herramienta ejecutable**
+
+Commit del D2: `<SHA del commit del START-TASK>`
+
 ---
 
 ## Lo que está operativo ahora
