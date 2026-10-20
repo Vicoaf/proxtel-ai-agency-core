@@ -184,3 +184,13 @@ certificación (D2 de la semana 2, correcciones F1-F6). No hace falta esperar
 nada para empezar.
 
 **Fin del documento.**
+
+### Semana 2 - D4: Orchestrator + ciclo parcialmente automatizado (completado)
+
+- `tools/orchestrator-contract.md` (246 lineas): contrato formal del invocador externo. Claude no puede hacer file I/O (`--permission-prompts none`); el orchestrator compone el prompt con contexto embebido y escribe la evidencia.
+- `tools/run-review-step.ps1` (446 lineas): automatiza el paso 4 (review). Probado contra T-0001: `REVIEW_PASS` en 17.66s, $0.05.
+- `tools/run-certification-step.ps1` (478 lineas): automatiza el paso 6 (certification). Probado contra T-0001: `READY_FOR_MERGE_AUTHORIZATION` en 10.61s, $0.03.
+- Comparacion automatizado vs asistido: los 7 hallazgos y el `candidate_commit` son identicos. El automatizado es MAS detallado (5 notas vs 3, evidencia contextual).
+- Claude detecto una anomalia temporal en T-0001 (QA anterior al review) que el asistido no vio. Confirmada por Vic como artefacto del D4. Documentada en `CONFIRMACION-ANOMALIA-TEMPORAL.md` y `F12`.
+- **Resultado:** 2 de 5 pasos del ciclo V3 automatizados (`review` + `certification`). Los otros 3 (plan, frontend, QA) siguen asistidos.
+- Coste total del D4: ~$0.08 de cuota Claude (17.66s + 10.61s).

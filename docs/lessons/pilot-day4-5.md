@@ -242,3 +242,69 @@ No es un problema real, solo molesta al debuggear.
 ---
 
 **Fin del documento.**
+
+---
+
+## Fricciones del D4 (orchestrator)
+
+### F10 - `git diff main..HEAD` invalido post-merge
+
+**Sintoma:** el orchestrator paso 4 leyo 1848 chars de diff cuando deberia leer ~7000-9000. Claude reporto `REVIEW_FAIL` con los 7 hallazgos en FAIL porque el diff no contenia el codigo real.
+
+**Causa:** despues del merge del piloto a `main` (Dia 7), `main` avanzo a un commit descendiente de `HEAD`. `git merge-base main HEAD` = `HEAD`, entonces `git diff main..HEAD` = vacio. El script leyo un diff sin el codigo bajo revision.
+
+**Mitigacion aplicada:** anadido parametro `-BaseRef <SHA>` al script. Vic pasa el SHA base explicito (ej. `7355b22`) cuando `main` ya avanzo. Si `-BaseRef` no se provee, el script cae a `merge-base` (que falla silenciosamente en este caso).
+
+**Accion futura:** el `01-plan.md` debe capturar `base_commit: <SHA>` inmutable en el momento de planificacion. El orchestrator lee ese campo en lugar de inferirlo de `main`.
+
+---
+
+### F11 - `New-Item -Force` crea el WorkingDir antes del check
+
+**Sintoma:** `run-certification-step.ps1` con `-WorkingDir C:\DEV\_test-nonexistent` no fallaba en el check de WorkingDir. Fallaba despues en `git status` con "not a git repository".
+
+**Causa:** `New-Item -ItemType Directory -Force -Path $LogDir` crea toda la cadena de directorios, incluyendo `$WorkingDir` si no existe. Cuando el check `Test-Path $WorkingDir` corre, ya existe (recien creado), y el check pasa. Despues `git status` falla porque el directorio recien creado no tiene `.git`.
+
+**Mitigacion aplicada:** el check de `Test-Path $WorkingDir` va ANTES de cualquier `New-Item`. Se crea `$LogDir` solo despues de validar el `WorkingDir`.
+
+**Regla:** nunca `New-Item -Force` antes de validar el directorio padre.
+
+---
+
+### F12 - Anomalia temporal detectada por Claude (nueva capability)
+
+**Sintoma:** el certification automatizado detecto que `05-playwright.md` (2026-10-19) es anterior al `04-claude-review.md` (2026-10-20T22:07:42Z). En el ciclo V3 el orden es review -> QA. Aqui el QA precedio al review.
+
+**Causa:** artefacto del D4. El piloto se hizo completo el Dia 4-5 (asistido). En el D4 re-ejecutamos SOLO review + certification con el orchestrator. El `05-playwright.md` sigue siendo el del Dia 4-5.
+
+**Impacto:** cero. `candidate_commit` es identico en ambas evidencias. El codigo auditado por Playwright es el mismo que el revisado por Claude. No hubo cambios en `index.html`, `styles.css`, `script.js` entre fechas.
+
+**Mitigacion aplicada:** Vic confirmo la anomalia en `CONFIRMACION-ANOMALIA-TEMPORAL.md`. Documentada en el `06-certification.yaml` (nota 5).
+
+**Accion futura:** el orchestrator debe validar el orden temporal de las evidencias:
+- `05-playwright.md` fecha >= `04-claude-review.md` fecha
+- Si la fecha de QA es anterior al review: `BLOCKED` en lugar de `READY_FOR_MERGE_AUTHORIZATION`
+
+**Hallazgo meta:** el orchestrator automatizado detecto una inconsistencia que el ciclo asistido original no vio. Esto valida que los orchestrators con validacion estricta son superiores al modo asistido para deteccion de anomalias.
+
+---
+
+### F13 (menor) - Mojibake UTF-8 en Windows
+
+**Sintoma:** `git diff | Out-String` en PowerShell pierde UTF-8. Los acentos se ven como `est├ítica` en lugar de `estática`.
+
+**Causa:** PowerShell en Windows usa code page 850/1252 por defecto para pipes, no UTF-8. `Get-Content -Raw -Encoding UTF8` funciona, pero `git diff | Out-String` no.
+
+**Impacto:** cosmetico. Los archivos en disco estan bien. Claude lee el mojibake en el prompt pero puede inferir el contenido.
+
+**Accion futura:** anadir `[Console]::OutputEncoding = [System.Text.Encoding]::UTF8` al inicio del orchestrator. O usar `git -c core.quotepath=false diff` con `chcp 65001`.
+
+---
+
+## Resultado del D4
+
+- 2 de 5 pasos del ciclo V3 automatizados (`review` + `certification`)
+- 3 bugs reales detectados y corregidos (F10, F11, F12)
+- 1 anomalia detectada por Claude que el asistido no vio (F12)
+- Coste total: ~$0.08 de cuota Claude
+- Duracion total automatizada: 17.66s + 10.61s = 28.27s (vs ~15 min del ciclo asistido original)
