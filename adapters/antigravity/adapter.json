@@ -4,13 +4,15 @@
     "id":  "antigravity",
     "provider":  "antigravity",
     "lifecycle":  {
-                      "state":  "candidate",
+                      "state":  "approved",
                       "version":  "0.1.0",
-                      "execution_status":  "not-executed"
+                      "execution_status":  "live-tested",
+                      "approved_utc":  "2026-10-20T22:40:00Z",
+                      "certification_ref":  "tests/integration/provider-adapters/behavioral-v2-harness/provider-smokes/antigravity/formal-reports/antigravity-adapter-promotion-certification-v1.json"
                   },
     "cli":  {
                 "command":  "agy",
-                "observed_version":  "1.2.6",
+                "observed_version":  "1.4.3",
                 "command_type":  "Application",
                 "source":  "C:\\Users\\MSI\\AppData\\Local\\agy\\bin\\agy.exe"
             },
