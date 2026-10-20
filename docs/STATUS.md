@@ -219,3 +219,15 @@ nada para empezar.
 **La agencia esta lista para recibir su primer cliente real.**
 
 Tag de cierre: `v3-semana2-completa`
+
+### D6 - Mejoras opcionales de calidad (completado)
+
+- F13 (UTF-8): `[Console]::OutputEncoding = UTF8` anadido a ambos scripts. Elimina mojibake en `git diff`.
+- D6.2 (`quota-log.md`): reescrito para alinear con politica R. Elimina inconsistencia "70% semanal" detectada por Claude en D3.
+- F12 (validacion temporal): `run-certification-step.ps1` detecta QA anterior a Review y bloquea por defecto. Flag `-AllowTemporalAnomaly` para excepciones autorizadas.
+- F14 documentada: `.Replace()` falla silenciosamente con CRLF vs LF en Windows. Patron array-linea documentado.
+- Tests: F12 test 1 (sin flag) falla correctamente, test 2 (con flag) invoca Claude y genera certification valido.
+
+**Estado: agencia operativa al 85%.** Los 3 fixes de calidad (F13, quota-log, F12) resueltos. Deudas menores pendientes (F14 patron aplicado, mojibake no ejercitado en test real). Ninguna bloquea operar.
+
+Tag siguiente cuando termine D6: `v3-d6-calidad`

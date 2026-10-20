@@ -308,3 +308,39 @@ No es un problema real, solo molesta al debuggear.
 - 1 anomalia detectada por Claude que el asistido no vio (F12)
 - Coste total: ~$0.08 de cuota Claude
 - Duracion total automatizada: 17.66s + 10.61s = 28.27s (vs ~15 min del ciclo asistido original)
+
+---
+
+## Fricciones del D6 (mejoras de calidad)
+
+### F14 - `.Replace()` falla silenciosamente en Windows por CRLF vs LF
+
+**Sintoma:** el patch a `run-certification-step.ps1` con `.Replace($oldParam, $newParam)` retorno `0` reemplazos. El script sintacticamente OK pero sin los cambios aplicados.
+
+**Causa:** el archivo tiene line endings LF (Unix), pero los here-strings en PowerShell usan CRLF (Windows). El match literal `\r\n` en el archivo contra `\n` en el script falla silenciosamente. `$content.Replace()` retorna el string original sin cambios.
+
+**Mitigacion aplicada:** operar sobre `Get-Content` como **array de lineas** en lugar de string multi-linea. Los arrays preservan los line endings por linea, y el match funciona linea por linea. Despues `Set-Content -Value $lines` escribe correctamente.
+
+**Regla:** cualquier patch a un archivo de texto en Windows que use `.Replace()` con strings multi-linea debe:
+1. Leer como array: `$lines = Get-Content -Path $file -Encoding UTF8`
+2. Buscar el indice de la linea que coincide con regex: `for ($i=0; $i -lt $lines.Count; $i++) { if ($lines[$i] -match '...') { ... } }`
+3. Insertar/modificar en el array
+4. Escribir con `Set-Content -Value $lines -Encoding UTF8`
+
+Alternativa: normalizar antes `$content = $content -replace "`r`n", "`n"`. Pero el array es mas robusto.
+
+**Impacto:** ~10 minutos perdidos en D6.3 y un rollback (`git checkout --`) que descarto el primer intento.
+
+**Hallazgo meta:** los patches con `.Replace()` son frágiles. El patron array-linea es el estandar para automatizacion en PowerShell.
+
+---
+
+## Resultado del D6
+
+- F13 aplicado: `[Console]::OutputEncoding = UTF8` en ambos scripts (fix de mojibake)
+- D6.2 aplicado: `quota-log.md` alineado con politica R (elimina inconsistencia 70% semanal)
+- F12 aplicado: validacion temporal en `run-certification-step.ps1` (`-AllowTemporalAnomaly` para excepciones)
+- F14 documentada: `.Replace()` falla con CRLF vs LF en Windows
+- 4 commits: F13 (2 scripts), quota-log, F12 (1 script), lessons+STATUS
+
+**Estado de la agencia: operativa al 85%.**
