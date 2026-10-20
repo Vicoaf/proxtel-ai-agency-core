@@ -24,7 +24,8 @@
 #>
 param(
     [Parameter(Mandatory=$true)][string]$TaskId,
-    [Parameter(Mandatory=$true)][string]$WorkingDir
+    [Parameter(Mandatory=$true)][string]$WorkingDir,
+    [switch]$AllowTemporalAnomaly
 )
 
 $ErrorActionPreference = 'Stop'
@@ -160,6 +161,32 @@ Write-Log "=== LEYENDO CONTEXTO ==="
 $planContent       = Get-Content -LiteralPath $PlanPath -Raw -Encoding UTF8
 $googleContent     = Get-Content -LiteralPath $GooglePath -Raw -Encoding UTF8
 $playwrightContent = Get-Content -LiteralPath $PlaywrightPath -Raw -Encoding UTF8
+# ============================================================
+# VALIDACION TEMPORAL (F12)
+# ============================================================
+Write-Log "=== VALIDACION TEMPORAL (F12) ==="
+
+$qaDateMatch = [regex]::Match($playwrightContent, "(?m)^fecha:\s*(\d{4}-\d{2}-\d{2})")
+if (-not $qaDateMatch.Success) { Fail-Preflight "No se pudo extraer fecha de 05-playwright.md" }
+$qaDate = [datetime]::ParseExact($qaDateMatch.Groups[1].Value, "yyyy-MM-dd", $null)
+
+$reviewDateMatch = [regex]::Match($reviewContent, "(?m)^reviewed_utc:\s*(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)")
+if (-not $reviewDateMatch.Success) { Fail-Preflight "No se pudo extraer reviewed_utc de 04-claude-review.md" }
+$reviewDate = [datetime]::ParseExact($reviewDateMatch.Groups[1].Value, "yyyy-MM-ddTHH:mm:ssZ", $null).ToUniversalTime()
+
+if ($qaDate.Date -lt $reviewDate.Date) {
+    $diffDays = ($reviewDate.Date - $qaDate.Date).Days
+    $msg = "ANOMALIA TEMPORAL: QA anterior a Review. Diferencia: $diffDays dia(s)."
+    if ($AllowTemporalAnomaly) {
+        Write-Log "  WARN: $msg" "WARN"
+        Write-Log "  Aceptado por -AllowTemporalAnomaly" "WARN"
+    } else {
+        Fail-Preflight $msg
+    }
+} else {
+    Write-Log "  OK: orden temporal correcto (QA >= Review)"
+}
+
 Write-Log "01-plan.md: $($planContent.Length) chars"
 Write-Log "03-google.md: $($googleContent.Length) chars"
 Write-Log "04-claude-review.md: $($reviewContent.Length) chars"
