@@ -142,6 +142,8 @@ El ciclo V3 es la política; el orchestrator V2 es el motor existente. No se deb
 - Secretos fuera de Git. .env reales y secrets/ están en .gitignore.
 - Si Claude no puede completar el /review obligatorio, se bloquea la promoción a QA. No se sustituye silenciosamente por otra IA.
 - No tocar los archivos protegidos en .gitattributes con -text -eol. Son certificaciones byte-exact del V2.
+- **En Windows, Claude Code escribe archivos largos con `Write`, no por stdout.** El output por terminal se corrompe con líneas largas en Windows. Aplica a `01-plan.md`, `04-claude-review.md`, `05-playwright.md`, `06-certification.yaml` y cualquier archivo que supere 20 líneas. Nunca copiar de la terminal.
+- **Las verificaciones de PowerShell con `-SimpleMatch -AllMatches` pueden dar falsos negativos.** Usar `(Select-String -Path X -Pattern Y).Count` o `-AllMatches` sin `-SimpleMatch`. Ver `standards/pre-flight-checks.md` sección P.1.
 
 ---
 
