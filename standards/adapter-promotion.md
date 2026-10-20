@@ -51,6 +51,12 @@ Documento relacionado: `config/schemas/proxtel-provider-adapter.schema.json`
 
 **Justificación:** el smoke test original puede tener meses. La verificación rápida confirma que la versión actual sigue funcionando sin necesidad de crear un packet nuevo con lock/certificación completa. El version drift se documenta en la certificación de promoción, no se oculta.
 
+**Nota operativa (F16):** los CLIs que auto-actualizan (ej. Google AI Pro con `agy`) pueden cambiar el binario entre la verificación inicial y el momento de escribir el adapter. Regla adicional:
+- Antes de verificar: matar procesos interactivos del CLI (`Get-Process <cli> | Stop-Process -Force`).
+- Verificar estabilidad del hash por ≥2 minutos (3 mediciones separadas 60s).
+- Re-verificar el hash INMEDIATAMENTE antes de escribir el adapter.json. Si cambió desde la verificación: re-verificar el smoke test, no confiar en el resultado previo.
+- Documentar el drift en `version_drift` de la certificación de promoción con todos los hashes intermedios.
+
 ### R4 — Autorización formal de Vic
 
 - Existe `AUTHORIZATION-ADAPTER-<provider>.md` firmado

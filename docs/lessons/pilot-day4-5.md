@@ -344,3 +344,73 @@ Alternativa: normalizar antes `$content = $content -replace "`r`n", "`n"`. Pero 
 - 4 commits: F13 (2 scripts), quota-log, F12 (1 script), lessons+STATUS
 
 **Estado de la agencia: operativa al 85%.**
+
+---
+
+## Fricciones del D7.1 (Antigravity)
+
+### F16 - Google auto-update silencioso de `agy`
+
+**Sintoma:** entre D7.1.2 (verificacion PASS con 1.4.2) y D7.1.3 (promocion), el binario `agy.exe` cambio de 1.4.2 a 1.4.3 sin intervencion explicita. Hash `4F6C7A80...` -> `B9EBBC8A...`. El proceso agy interactivo (PID 31224, iniciado 10:44 a.m.) seguia activo en la sesion, pero el disco ya tenia la version nueva.
+
+**Causa:** Google AI Pro auto-actualiza el binario `agy.exe` silenciosamente. Probablemente el proceso interactivo descarga la nueva version en background y la escribe en disco cuando detecta "inactividad" o al terminar una sesion.
+
+**Evidencia:**
+- `agy.exe LastWriteTime`: 20/10/2026 4:30:45 p.m. (justo antes de la promocion)
+- `agy.exe CreationTime`: 28/05/2026 (instalacion original)
+- `agy --version` D7.1.2: `1.4.2`; D7.1.3: `1.4.3`
+- Hash cambio entre las 2 consultas
+
+**Mitigacion aplicada:**
+1. Matar proceso `agy` interactivo (`Stop-Process -Force`)
+2. Verificar estabilidad de hash por 2 minutos (3 mediciones separadas 60s)
+3. Re-verificar con el binario actual (7/7 PASS)
+4. Promover con el hash verificado
+
+**Accion para futuras promociones de Antigravity:**
+- Antes de cada verificacion: `Get-Process agy | Stop-Process -Force` (matar sesiones interactivas)
+- Verificar estabilidad de hash por >=2 min (evitar updates sorpresa)
+- Verificar el hash INMEDIATAMENTE antes de escribir el adapter (no confiar en hash de hace 10 min)
+
+**Hallazgo meta:** cualquier CLI que auto-actualice requiere guardas de estabilidad. Claude Code (npm) y Codex (npm) requieren `npm install -g` explicito, lo cual es mas controlable. Antigravity (Google) no.
+
+---
+
+### F17 - `if` y `else` en lineas separadas fallan en PowerShell
+
+**Sintoma:** 
+    if ($x -eq 0) { Write-Host "ok" }
+    else { Write-Host "fail" }
+
+Error: "else: El termino 'else' no se reconoce como nombre de un cmdlet".
+
+**Causa:** PowerShell parsea cada statement separadamente si estan en lineas distintas. El `if` cierra como statement completo en la primera linea. El `else` en la siguiente linea es un statement nuevo, no vinculado.
+
+**Mitigacion:** `if` y `else` deben estar en el mismo statement:
+
+    if ($x -eq 0) { Write-Host "ok" } else { Write-Host "fail" }
+
+O con llaves multilinea bien anidadas (con el `else` pegado al `}` del `if`):
+
+    if ($x -eq 0) {
+        Write-Host "ok"
+    } else {
+        Write-Host "fail"
+    }
+
+**Impacto:** cosmetico. El `if` si se ejecuta; solo el `else` falla. En D7.1.3 el `if` imprimio "5/5 cambios verificados" correctamente, el `else` fallo (sin consecuencias).
+
+**Regla:** nunca poner `else` en linea nueva separado del `}` del `if`. Siempre pegarlos (mismo statement).
+
+---
+
+## Resultado del D7.1
+
+- Antigravity promovido a `approved / live-tested`
+- Verificacion triple documentada (1.2.6 / 1.4.2 / 1.4.3)
+- 2 fricciones nuevas (F16 auto-update, F17 if/else)
+- Politica nueva en adapter-promotion.md: verificar hash INMEDIATAMENTE antes de promover
+- Coste total: ~$0.06 (2 verificaciones)
+- Duracion: ~1.5h (incluye rollback y re-verificacion)
+
+**Estado: agencia al 92%.**

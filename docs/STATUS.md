@@ -231,3 +231,21 @@ Tag de cierre: `v3-semana2-completa`
 **Estado: agencia operativa al 85%.** Los 3 fixes de calidad (F13, quota-log, F12) resueltos. Deudas menores pendientes (F14 patron aplicado, mojibake no ejercitado en test real). Ninguna bloquea operar.
 
 Tag siguiente cuando termine D6: `v3-d6-calidad`
+
+### D7.1 - Adapter Antigravity promovido a approved (completado)
+
+- Diagnostico: C31 (1.2.6) certificado, CLI actual 1.4.3 (drift triple: 1.2.6 -> 1.4.2 -> 1.4.3).
+- Verificacion inicial D7.1.2: PASS 7/7 con agy 1.4.2 (hash 4F6C7A80).
+- **Anomalia detectada:** entre D7.1.2 y D7.1.3 el binario auto-actualizo a 1.4.3 (hash B9EBBC8A).
+- Guardas aplicadas: matar proceso agy, verificar estabilidad de hash por 2 min, re-verificar con binario actual.
+- Re-verificacion D7.1.4: PASS 7/7 con agy 1.4.3 (hash B9EBBC8A).
+- Adapter promovido: `candidate/not-executed` -> `approved/live-tested`.
+- Certificacion: `antigravity-adapter-promotion-certification-v1.json` (drift triple documentado).
+- Autorizacion: `AUTHORIZATION-ADAPTER-ANTIGRAVITY.md` (firmada).
+- Commit: `4f2ee1a` + tag `antigravity-adapter-approved-v1` pusheados a GitHub.
+
+**Hallazgo operativo:** Google AI Pro auto-actualiza agy silenciosamente. Politica nueva en `adapter-promotion.md` R3: verificar hash del binario inmediatamente antes de cada promocion, no solo al inicio.
+
+**Estado de la agencia: 92% operativa.** 2 de 3 adapters certified (Claude + Antigravity). Codex permanece en candidate.
+
+Tag siguiente al cierre de D7.1: `v3-antigravity-approved`
