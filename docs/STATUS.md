@@ -292,3 +292,52 @@ Tag siguiente al cierre de D7.1: `v3-antigravity-approved`
 La agencia esta completamente lista para su primer cliente real. Cualquier tarea (frontend, backend o full-stack) se puede ejecutar con el adapter certificado correspondiente.
 
 Tag de cierre final: `v3-fully-certified`
+
+---
+
+## Definition of Done — PROXTEL AI Agency
+
+**La agencia está considerada "lista para clientes" cuando se cumplan TODOS estos criterios:**
+
+### Criterio 1: Infraestructura mínima
+- [x] Core V3 completo (arquitectura, standards, bootstrap)
+- [x] 3 adapters en `approved / live-tested`
+- [x] 2 de 6 pasos del ciclo automatizados (review + certification)
+- [x] Skills registry sincronizado (10 skills reales)
+- [x] `PROJECT-SKILLS.md` template simple (55 lineas)
+- [x] `skills/base/` archivado en `_legacy/`
+
+### Criterio 2: Ejecución real (PENDIENTE)
+- [ ] **1 proyecto real ejecutado con el ciclo V3 completo**
+- [ ] Documentado en `docs/lessons/` con fricciones reales
+- [ ] Cobrado al cliente (o entregado formalmente)
+
+### Criterio 3: Retrospectiva post-primer-proyecto (PENDIENTE)
+- [ ] Qué skills se usaron realmente vs cuáles fueron decorativas
+- [ ] Qué subagentes se invocaron vs cuáles no
+- [ ] Qué pasos del ciclo se automatizaron vs cuáles fueron manuales
+- [ ] Qué fricciones nuevas aparecieron (F19+)
+
+### Criterio 4: Decisión de expansión (PENDIENTE)
+- [ ] ¿Se activa el área CRM completa? (depende del tipo de proyecto)
+- [ ] ¿Se registran más areas (customer-service, sales, etc.)?
+- [ ] ¿Se automatizan más pasos del ciclo?
+
+---
+
+**Estado actual (2026-10-20):**
+
+- Criterio 1: ✅ CUMPLIDO
+- Criterio 2: ⏳ PENDIENTE (requiere proyecto real)
+- Criterio 3: ⏳ PENDIENTE
+- Criterio 4: ⏳ PENDIENTE
+
+**Regla:** No se construye nada nuevo hasta cumplir el Criterio 2. El proyecto real revela qué partes de la infraestructura son necesarias y cuáles son especulativas.
+
+**Próximo paso:** buscar el primer proyecto real (cliente, personal, o venta) y ejecutarlo. No construir más infraestructura hasta entonces.
+
+---
+
+## Anti-patrón a evitar
+
+**"Configuración adictiva":** la tentación de seguir construyendo infraestructura porque el progreso es medible y cómodo. El trabajo real (clientes, deadlines, alcance) es incómodo. La regla es: **no construir más hasta tener datos reales del primer proyecto.**
