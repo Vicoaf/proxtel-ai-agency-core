@@ -5,7 +5,7 @@
     "display_name":  "PROXTEL Documentation Delivery Workflow",
     "area":  "documentation",
     "version":  "1.0.0",
-    "status":  "approved",
+    "status":  "draft",
     "provider_neutral":  true,
     "steps":  [
                   {
@@ -98,3 +98,4 @@
                    "secrets_in_artifacts_forbidden":  true
                }
 }
+

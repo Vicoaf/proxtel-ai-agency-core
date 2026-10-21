@@ -5,7 +5,7 @@
     "display_name":  "PROXTEL Finance Delivery Workflow",
     "area":  "finance",
     "version":  "1.0.0",
-    "status":  "approved",
+    "status":  "draft",
     "provider_neutral":  true,
     "steps":  [
                   {
@@ -83,3 +83,4 @@
                    "automatic_deploy_forbidden":  true
                }
 }
+

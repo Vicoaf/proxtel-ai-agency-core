@@ -1,6 +1,3 @@
-cd C:\DEV\PROXTEL-AI-AGENCY
-
-$workflowContent = @'
 # Project Workflow con ChatGPT
 
 Protocolo de uso de ChatGPT en el ciclo de vida de proyectos.
@@ -127,7 +124,3 @@ Si ChatGPT opina sin State Brief, se le responde:
 - Vic aprueba.
 
 Nunca cruzar los roles.
-'@
-
-Set-Content -LiteralPath "standards\project-workflow-chatgpt.md" -Value $workflowContent -Encoding UTF8
-Write-Host "Creado: standards\project-workflow-chatgpt.md ($((Get-Item 'standards\project-workflow-chatgpt.md').Length) bytes)"

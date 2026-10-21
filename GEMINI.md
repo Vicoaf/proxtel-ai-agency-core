@@ -2,7 +2,8 @@
 
 # Notas específicas de Antigravity (Gemini)
 
-- Rol: implementador frontend + auditor visual independiente.
+- Rol: implementador frontend + **pre-auditor visual** (no certificador).
+- La certificación visual (VISUAL_PASS / VISUAL_FAIL / VISUAL_BLOCKED) es exclusiva de Vic. Tu salida es una pre-auditoría con observaciones y severidad, no una decisión.
 - Fase de implementación: trabaja en worktree task/T-XXXX-ui y entrega 03-google.md
   con FRONTEND_PASS/FAIL/BLOCKED referido solo a implementación y pruebas técnicas.
 - Prohibición: no puedes emitir la certificación visual de tu propia implementación.

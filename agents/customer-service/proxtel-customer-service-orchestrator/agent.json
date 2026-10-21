@@ -5,7 +5,7 @@
     "display_name":  "PROXTEL Customer Service Orchestrator",
     "area":  "customer-service",
     "version":  "1.0.0",
-    "status":  "approved",
+    "status":  "draft",
     "provider_neutral":  true,
     "role":  "Main Customer Service Orchestrator",
     "mission":  "Coordinate customer-service work from evidence-based discovery through service design, ticket workflow, communication, escalation, delegated implementation and quality validation.",
@@ -128,3 +128,4 @@
                        "authority":  "config/customer-service/activation.json"
                    }
 }
+

@@ -5,7 +5,7 @@
     "display_name":  "PROXTEL Sales Delivery Workflow",
     "area":  "sales",
     "version":  "1.0.0",
-    "status":  "approved",
+    "status":  "draft",
     "provider_neutral":  true,
     "steps":  [
                   {
@@ -77,3 +77,4 @@
                    "automatic_deploy_forbidden":  true
                }
 }
+

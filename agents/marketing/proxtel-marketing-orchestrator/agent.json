@@ -5,7 +5,7 @@
     "display_name":  "PROXTEL Marketing Orchestrator",
     "area":  "marketing",
     "version":  "1.0.0",
-    "status":  "approved",
+    "status":  "draft",
     "provider_neutral":  true,
     "role":  "Main Marketing Orchestrator",
     "mission":  "Coordinate source-grounded marketing discovery, positioning, campaigns, content, channel strategy, demand generation, CRM/Sales coordination and marketing QA.",
@@ -72,3 +72,4 @@
                        "authority":  "config/marketing/activation.json"
                    }
 }
+

@@ -5,7 +5,7 @@
     "display_name":  "PROXTEL Finance Orchestrator",
     "area":  "finance",
     "version":  "1.0.0",
-    "status":  "approved",
+    "status":  "draft",
     "provider_neutral":  true,
     "role":  "Main Finance Orchestrator",
     "mission":  "Coordinate source-grounded financial requirements, budgets, forecasts, billing, revenue, reconciliation, controls, integrations and finance QA.",
@@ -70,3 +70,4 @@
                        "authority":  "config/finance/activation.json"
                    }
 }
+

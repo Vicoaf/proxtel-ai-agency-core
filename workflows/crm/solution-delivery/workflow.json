@@ -5,7 +5,7 @@
     "display_name":  "PROXTEL CRM Solution Delivery Workflow",
     "area":  "crm",
     "version":  "1.0.0",
-    "status":  "approved",
+    "status":  "draft",
     "provider_neutral":  true,
     "execution_mode":  "orchestration-with-development-delegation",
     "purpose":  {
@@ -150,3 +150,4 @@
                    "automatic_live_retry_forbidden":  true
                }
 }
+
