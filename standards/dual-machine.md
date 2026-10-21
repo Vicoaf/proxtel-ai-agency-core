@@ -13,8 +13,8 @@ Documento relacionado: docs/architecture-v3.md sección 7
 - PC Windows = máquina maestra. C:\DEV\PROXTEL-AI-AGENCY. Autoriza merges a main.
 - MacBook Pro = réplica de trabajo. ~/DEV/PROXTEL-AI-AGENCY. Puede trabajar en
   ramas task/T-XXXX-* o mac/task-T-XXXX. Una sola máquina escritora activa por
-  rama (ver standards/concurrency.md). El merge a main lo autoriza Claude en el
-  PC (máquina maestra).
+  rama (ver standards/concurrency.md). El merge a main lo autoriza Vic; Claude
+  lo ejecuta en el PC (máquina maestra) solo tras la aprobación explícita de Vic.
 
 ---
 

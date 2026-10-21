@@ -5,7 +5,7 @@
     "display_name":  "PROXTEL Sales Orchestrator",
     "area":  "sales",
     "version":  "1.0.0",
-    "status":  "approved",
+    "status":  "draft",
     "provider_neutral":  true,
     "role":  "Main Sales Orchestrator",
     "mission":  "Coordinate qualification, pipeline, outreach, proposals, handoffs, CRM coordination and sales-domain QA.",
@@ -68,3 +68,4 @@
                        "authority":  "config/sales/activation.json"
                    }
 }
+

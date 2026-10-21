@@ -5,7 +5,7 @@
     "display_name":  "PROXTEL PBX Delivery Workflow",
     "area":  "pbx",
     "version":  "1.0.0",
-    "status":  "approved",
+    "status":  "draft",
     "provider_neutral":  true,
     "steps":  [
                   {

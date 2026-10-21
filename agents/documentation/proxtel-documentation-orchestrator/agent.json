@@ -5,7 +5,7 @@
     "display_name":  "PROXTEL Documentation Orchestrator",
     "area":  "documentation",
     "version":  "1.0.0",
-    "status":  "approved",
+    "status":  "draft",
     "provider_neutral":  true,
     "role":  "Main Documentation Orchestrator",
     "mission":  "Coordinate source-grounded documentation from audience and source discovery through structure, drafting, runbooks, validation and release.",
@@ -111,3 +111,4 @@
                        "authority":  "config/documentation/activation.json"
                    }
 }
+

@@ -55,13 +55,15 @@ Ante cualquier contradicción entre niveles de autoridad, el agente debe detener
       Define QUIÉN ejecuta qué y cómo se coordina.
 
     CAPA 2 — SKILLS (V2, certificada)
-      skills/core/* + skills/development/* + skills/base/*
+      skills/core/* + skills/development/* + skills/_legacy/base/*
       skills/_registry/skills-registry.json
       Define CON QUÉ se ejecuta.
 
     CAPA 1 — PROYECTOS DE CLIENTES
       i-Tkt, TRDStation, PROXTEL PBX, nuevos.
       Cada uno con su PROJECT-SKILLS.md.
+
+     > `skills/_legacy/base/` contiene skills baseline no certificadas. Solo se activan tras pasar por `proxtel-skill-creator` y `proxtel-skill-auditor` (ver `skills/registry.md`).
 
 ---
 
@@ -110,7 +112,7 @@ en .agency-local/audit/T-XXXX/. Ver docs/architecture-v3.md sección 2.
 2. Codex implementa backend (worktree task/T-XXXX-api) → 02-codex.md
 3. Antigravity implementa frontend (worktree task/T-XXXX-ui) → 03-google.md
 4. Claude ejecuta /review (gate técnico obligatorio) → 04-claude-review.md con REVIEW_PASS
-5. Playwright realiza QA funcional y genera capturas; Vic realiza la auditoría visual humana independiente sobre esas capturas → 05-playwright.md (QA_PASS + VISUAL_PASS)
+5. Playwright realiza QA funcional y genera capturas. Antigravity puede producir una **pre-auditoría visual preliminar** (observaciones con severidad, no certificación) sobre `screenshots/` y `traces/`. Vic realiza la auditoría visual humana independiente y emite la decisión final → 05-playwright.md (QA_PASS + VISUAL_PASS emitido por Vic).
 
 Antigravity es el implementador frontend. Puede realizar verificaciones técnicas de su implementación, pero **NO puede emitir la aprobación visual independiente sobre su propio trabajo**. La decisión VISUAL_PASS, VISUAL_FAIL o VISUAL_BLOCKED corresponde exclusivamente a Vic.
 
@@ -126,7 +128,7 @@ Claude debe verificar que el commit candidato corresponde exactamente al código
 
 Sin 06-certification.yaml completo, válido y verificado, no se solicita autorización de merge a main a Vic.
 
-El orchestrator V2 (proxtel-development-orchestrator) es el motor existente de orquestación certificado. El ciclo V3 establece la política operativa de cinco pasos, pero su ejecución automatizada no está certificada mientras el adapter de Claude permanezca en estado candidate / not-executed.
+El orchestrator V2 (proxtel-development-orchestrator) es el motor existente de orquestación certificado. El ciclo V3 establece la política operativa de cinco pasos, La ejecución programática end-to-end del ciclo depende de la integración de Playwright MCP con el adapter de Claude y del cumplimiento de los criterios C06–C10 de `docs/certification-plan.md`. Los adapters de los tres proveedores están `approved / live-tested` desde el 2026-10-20 (ver `standards/adapter-promotion.md`).
 
 El ciclo V3 es la política; el orchestrator V2 es el motor existente. No se debe asumir que el motor V2 ya ejecuta automáticamente todos los gates V3.
 
@@ -165,11 +167,22 @@ El ciclo V3 es la política; el orchestrator V2 es el motor existente. No se deb
 
 Especificación: config/schemas/proxtel-provider-adapter.schema.json.
 
-Estado: Codex y Antigravity certificados en Área 1.2. Claude Code está en estado `candidate / not-executed` (v0.1.0): instalado y verificado (v2.1.268), pero el adapter no se ha ejecutado aún en modo no-interactivo.
+Estado: los tres adapters están `approved / live-tested` a partir del 2026-10-20 (ver `standards/adapter-promotion.md` y `AUTHORIZATION-ADAPTER-<provider>.md`). La automatización end-to-end del ciclo de 5 pasos depende de la integración de Playwright MCP con el adapter (ver `docs/certification-plan.md` C06–C10).
 
-No se puede automatizar el ciclo completo de 5 pasos hasta certificar el adapter de Claude Code y validar su integración con los gates V3.
+Estado: los tres adapters están `approved / live-tested` a partir del 2026-10-20 (ver `standards/adapter-promotion.md` y `AUTHORIZATION-ADAPTER-<provider>.md`). La automatización end-to-end del ciclo de 5 pasos depende de la integración de Playwright MCP con el adapter (ver `docs/certification-plan.md` C06–C10).
 
 No modificar adapters ni contratos V2 sin certificación formal.
+
+---
+
+## ChatGPT (arquitecto estratégico externo)
+
+ChatGPT **no forma parte del ciclo operativo local**. Su rol es preventa, arquitectura de proyecto nuevo y retrospectiva. No ejecuta, no revisa, no aprueba, no toca el repo.
+
+- Reglas de uso: `standards/chatgpt-brief.md` y `standards/project-workflow-chatgpt.md`.
+- State Brief obligatorio antes de cualquier opinión sobre un proyecto en curso.
+- Si ChatGPT opina sobre el estado del repo sin State Brief, su opinión se descarta.
+- Los PASS de cualquier gate los escribe Claude solo con evidencia real en `.agency-local/audit/T-XXXX/`. ChatGPT no puede declarar PASS.
 
 ---
 
@@ -194,7 +207,7 @@ Cuando un porcentaje coincida con el límite entre dos categorías, prevalece el
 Reglas por proveedor:
 
 - **Claude Sonnet:** modelo predeterminado para orquestación y revisión de código.
-- **Claude Opus:** reservado exclusivamente para decisiones de arquitectura compleja que justifiquen su uso. Suspender preventivamente Opus cuando R ≤ 30%.
+- **Claude Opus:** reservado para decisiones de arquitectura compleja, revisión de seguridad compleja y diseño de solución inicial de alto riesgo (detalle en `CLAUDE.md`). Suspender preventivamente Opus cuando R ≤ 30%.
 - **Claude Code:** cuando Sonnet alcance R ≤ 20%, reservar capacidad para coordinación mínima y /review. Si Claude no puede completar el /review obligatorio, se bloquea la promoción a QA. No se sustituye silenciosamente por otra IA.
 - **Codex:** implementador backend habitual. Cuando R ≤ 20%, no iniciar tareas técnicas nuevas de gran alcance. Si se agota su cuota, conservar ramas, commits y evidencias sin declarar terminado el trabajo pendiente.
 - **Antigravity:** absorbe prioritariamente la implementación frontend y el apoyo técnico a las auditorías visuales, utilizando la cuota separada de Google. Puede inspeccionar y corregir su implementación, pero no emitir su aprobación visual independiente. Vic realiza la auditoría visual final sobre las capturas de Playwright.

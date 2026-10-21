@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "kind": "proxtel-skill-trigger-tests",
+  "skill_id": "trd-architecture-contract",
+  "generated_utc": "2026-10-20T00:00:00Z",
+  "positive_tests": [
+    {
+      "id": "TRIG-POS-001",
+      "input": "Implementa el FMP adapter para EURUSD en trdstation-core.",
+      "expected": "TRIGGER",
+      "rationale": "Menciona dominio Market Data + repo core. Requiere MARKET-DATA + MARKET-DATA-CONTRACT obligatorios.",
+      "context": { "repo": "trdstation-core", "domain": "market-data", "stage": "2+" }
+    },
+    {
+      "id": "TRIG-POS-002",
+      "input": "Disena MARKET-DATA-CONTRACT.md antes de codificar el adapter.",
+      "expected": "TRIGGER",
+      "rationale": "Referencia explicita a un contrato canonico. El agente debe consultar la tabla de obligatorios.",
+      "context": { "repo": "trdstation-core", "domain": "market-data", "stage": "1" }
+    },
+    {
+      "id": "TRIG-POS-003",
+      "input": "Podemos empezar a implementar el WebTrader?",
+      "expected": "TRIGGER",
+      "rationale": "Pregunta si se puede codificar. La skill debe verificar contratos obligatorios del broker antes de permitir.",
+      "context": { "repo": "trdstation-broker", "domain": "frontend", "stage": "2+" }
+    },
+    {
+      "id": "TRIG-POS-004",
+      "input": "Verifica si los contratos obligatorios del broker estan aprobados.",
+      "expected": "TRIGGER",
+      "rationale": "Consulta directa del estado de contratos. La skill debe usar su criterio de estado.",
+      "context": { "repo": "trdstation-broker", "domain": "any", "stage": "any" }
+    },
+    {
+      "id": "TRIG-POS-005",
+      "input": "Implementa el trading engine con orders y positions en core.",
+      "expected": "TRIGGER",
+      "rationale": "Menciona dominio Trading Engine. Requiere TRADING-DOMAIN-CONTRACT + CORE + SECURITY aprobados.",
+      "context": { "repo": "trdstation-core", "domain": "trading", "stage": "2+" }
+    },
+    {
+      "id": "TRIG-POS-006",
+      "input": "Necesito revisar que contratos aplican antes de planificar esta tarea.",
+      "expected": "TRIGGER",
+      "rationale": "Consulta explicita sobre contratos aplicables. Es el proposito literal de la skill.",
+      "context": { "repo": "any", "domain": "any", "stage": "any" }
+    }
+  ],
+  "negative_tests": [
+    {
+      "id": "TRIG-NEG-001",
+      "input": "Configura PostgreSQL local en mi Mac.",
+      "expected": "NO_TRIGGER",
+      "rationale": "Setup de entorno (Etapa 0). No escribe codigo funcional de TRDStation.",
+      "context": { "repo": "none", "domain": "setup", "stage": "0" }
+    },
+    {
+      "id": "TRIG-NEG-002",
+      "input": "Escribe el README del repo broker.",
+      "expected": "NO_TRIGGER",
+      "rationale": "Documentacion sin codigo funcional. No requiere contratos de arquitectura.",
+      "context": { "repo": "trdstation-broker", "domain": "docs", "stage": "any" }
+    },
+    {
+      "id": "TRIG-NEG-003",
+      "input": "Anade una nueva skill a skills/_proyectos/ del Core.",
+      "expected": "NO_TRIGGER",
+      "rationale": "Setup de la agencia (Etapa 0). No es una tarea de TRDStation.",
+      "context": { "repo": "PROXTEL-AI-AGENCY", "domain": "setup", "stage": "0" }
+    },
+    {
+      "id": "TRIG-NEG-004",
+      "input": "Crea la estructura inicial de carpetas en trdstation-deploy.",
+      "expected": "NO_TRIGGER",
+      "rationale": "Setup de repositorio (Etapa 0). No requiere contratos de dominio.",
+      "context": { "repo": "trdstation-deploy", "domain": "setup", "stage": "0" }
+    }
+  ]
+}

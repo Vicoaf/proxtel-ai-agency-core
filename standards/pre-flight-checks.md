@@ -239,6 +239,18 @@ UTF-8 (markdown, JSON, HTML), añadir `-Encoding UTF8`. Es cosmético para el
 usuario, pero crítico si el output se va a procesar con regex o pasar a otra
 herramienta.
 
+> **Nota de plataforma:** este documento usa PowerShell (Windows, máquina maestra). En MacBook, los comandos equivalentes son:
+> - `pwd` → `pwd`
+> - `git branch --show-current` → igual
+> - `git status` → igual
+> - `git worktree list` → igual
+> - `Get-Content -Raw -Encoding UTF8 X` → `cat X`
+> - `Test-Path X` → `test -f X && echo OK || echo FALTA`
+> - `Invoke-WebRequest http://localhost:8000` → `curl -s -o /dev/null -w "%{http_code}" http://localhost:8000`
+> - `(Select-String -Path X -Pattern Y).Count` → `grep -c "Y" X`
+>
+> El resto de la lógica (verificar directorio, rama, evidencias, candidate_commit) es idéntica.
+
 ---
 
 ## Tabla resumen

@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0",
+  "kind": "proxtel-skill",
+  "id": "trd-architecture-contract",
+  "display_name": "TRDStation Architecture Contract",
+  "area": "development",
+  "lifecycle": {
+    "state": "candidate",
+    "version": "0.1.0"
+  },
+  "scope": {
+    "level": "customer-specific",
+    "provider_specific": false,
+    "providers": [
+      "claude",
+      "codex",
+      "antigravity"
+    ]
+  },
+  "purpose": {
+    "summary": "Documentar el esqueleto de los 10 contratos canonicos de arquitectura de TRDStation, la tabla de contratos obligatorios por repositorio, y el criterio para determinar el estado de cada contrato (pendiente, definido, aprobado). Los agentes la consultan antes de planificar tareas de Etapa 1+.",
+    "use_when": [
+      "Antes de planificar cualquier tarea de Etapa 1 o superior.",
+      "Cuando el Task Contract mencione un contrato especifico.",
+      "Cuando haya duda sobre que contratos aplican a una tarea segun su repositorio y dominio."
+    ],
+    "do_not_use_when": [
+      "Tareas de Etapa 0 (setup de repos, skills, MCPs).",
+      "Ejecutar codigo o modificar contratos (esta skill no ejecuta ni modifica).",
+      "Sustituir los contratos completos (la skill apunta a la fuente, no los duplica)."
+    ]
+  },
+  "capabilities": {
+    "responsibilities": [
+      "Listar los 10 contratos canonicos de arquitectura de TRDStation.",
+      "Indicar que contratos son obligatorios segun repositorio (core, broker, deploy).",
+      "Indicar que contratos son obligatorios segun dominio (market data, trading, realtime, white label, telephony, security).",
+      "Definir el criterio para determinar el estado de un contrato (pendiente, definido, aprobado).",
+      "Apuntar a la fuente normativa (docs/architecture/) sin duplicarla.",
+      "Bloquear la planificacion de codigo funcional cuando falte un contrato obligatorio aprobado para la tarea."
+    ],
+    "limits": [
+      "No modifica contratos canonicos automaticamente.",
+      "No inventa contenido de contratos no definidos todavia.",
+      "No asume que un contrato existe si solo esta listado en esta skill sin archivo real en docs/architecture/.",
+      "No ejecuta codigo.",
+      "No duplica el texto completo de los contratos (solo apunta a la fuente y a su hash)."
+    ],
+    "completion_criteria": [
+      "Los 10 contratos estan listados con su fase y consumidores.",
+      "La tabla de contratos obligatorios por repositorio existe.",
+      "El criterio de estado de contrato esta definido.",
+      "La fuente normativa esta referenciada con ruta relativa y hash.",
+      "Las prohibiciones estan explicitas."
+    ]
+  },
+  "dependencies": [],
+  "resources": {
+    "skill_md": "SKILL.md",
+    "scripts": [],
+    "references": [
+      {
+        "path": "references/source-snapshot.md",
+        "purpose": "Snapshot del esqueleto de contratos con hash, fecha y ruta relativa a la fuente en trdstation-core."
+      },
+      {
+        "path": "tests/trigger-tests.json",
+        "purpose": "Trigger tests positivos y negativos para verificar cuando la skill debe activarse."
+      },
+      {
+        "path": "tests/task-evals.json",
+        "purpose": "Task evals con precondiciones de estado de contratos y comportamiento esperado (ALLOW/BLOCK)."
+      }
+    ],
+    "assets": []
+  },
+  "security": {
+    "network": {
+      "level": "none",
+      "description": "No requiere acceso a red."
+    },
+    "filesystem_write": {
+      "level": "none",
+      "description": "No escribe archivos durante la planificacion."
+    },
+    "filesystem_delete": {
+      "level": "none",
+      "description": "No elimina archivos."
+    },
+    "subprocess": {
+      "level": "read-only",
+      "description": "Puede leer archivos locales de docs/architecture/ para verificar existencia y hash."
+    },
+    "environment_access": {
+      "level": "none",
+      "description": "No requiere variables de entorno."
+    },
+    "secret_access": {
+      "level": "none",
+      "description": "No accede a secretos."
+    },
+    "privilege_required": false
+  },
+  "compatibility": {
+    "platforms": [
+      "windows",
+      "macos",
+      "linux"
+    ],
+    "providers": [
+      "claude",
+      "codex",
+      "antigravity"
+    ]
+  },
+  "testing": {
+    "required": true,
+    "trigger_tests": true,
+    "task_evals": true,
+    "baseline_comparison": false
+  },
+  "provenance": {
+    "origin_type": "project-specific",
+    "sources": [
+      {
+        "type": "internal",
+        "name": "TRDStation Blueprint V2",
+        "url": null,
+        "commit": null,
+        "license": null
+      },
+      {
+        "type": "internal",
+        "name": "trdstation-core/docs/architecture/_SKELETON-10-CONTRATOS.md",
+        "url": null,
+        "commit": "9031326",
+        "license": null
+      }
+    ]
+  }
+}

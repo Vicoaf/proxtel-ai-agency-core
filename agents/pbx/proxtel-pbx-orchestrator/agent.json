@@ -5,7 +5,7 @@
     "display_name":  "PROXTEL PBX Orchestrator",
     "area":  "pbx",
     "version":  "1.0.0",
-    "status":  "approved",
+    "status":  "draft",
     "provider_neutral":  true,
     "role":  "Main PBX Orchestrator",
     "mission":  "Coordinate PBX architecture, FreePBX, Asterisk, PJSIP, trunks, endpoints, dialplan, routing, carrier integration, CRM telephony, security, QoS, recording, operations and PBX QA.",

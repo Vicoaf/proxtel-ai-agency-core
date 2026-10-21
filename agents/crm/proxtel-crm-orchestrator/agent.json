@@ -5,7 +5,7 @@
     "display_name":  "PROXTEL CRM Orchestrator",
     "area":  "crm",
     "version":  "1.0.0",
-    "status":  "approved",
+    "status":  "draft",
     "provider_neutral":  true,
     "role":  "Main CRM Domain Orchestrator",
     "mission":  "Coordinate CRM-domain work from evidence-based discovery through requirements, data governance, workflow design, integration planning, delegated implementation and release-domain validation.",
@@ -135,3 +135,4 @@
                        "authority":  "config/crm/activation.json"
                    }
 }
+

@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "kind": "proxtel-skill-task-evals",
+  "skill_id": "trd-architecture-contract",
+  "generated_utc": "2026-10-20T00:00:00Z",
+  "description": "Escenarios de evaluacion con precondiciones de estado de contratos y comportamiento esperado.",
+  "evals": [
+    {
+      "id": "EVAL-001",
+      "input": "Implementa login en trdstation-core con JWT.",
+      "precondition": {
+        "contracts_state": {
+          "CORE-CONTRACT.md": "pendiente",
+          "SECURITY-CONTRACT.md": "pendiente"
+        }
+      },
+      "expected_behavior": "BLOCK",
+      "expected_output_contains": [
+        "CORE-CONTRACT.md pendiente",
+        "SECURITY-CONTRACT.md pendiente"
+      ],
+      "rationale": "Tarea de codigo funcional en Etapa 2+. CORE y SECURITY son obligatorios y no estan aprobados. La skill debe bloquear."
+    },
+    {
+      "id": "EVAL-002",
+      "input": "Escribe el MARKET-DATA-CONTRACT.md.",
+      "precondition": {
+        "contracts_state": {
+          "MARKET-DATA-CONTRACT.md": "pendiente"
+        }
+      },
+      "expected_behavior": "ALLOW",
+      "expected_output_contains": [
+        "Etapa 1",
+        "redaccion de contrato"
+      ],
+      "rationale": "Tarea de Etapa 1 (redactar el contrato). La skill NO debe bloquear porque se trata de crear el contrato, no de codigo funcional."
+    },
+    {
+      "id": "EVAL-003",
+      "input": "Implementa el sistema de watchlists en el broker.",
+      "precondition": {
+        "contracts_state": {
+          "BROKER-CONTRACT.md": "aprobado",
+          "MARKET-DATA-CONTRACT.md": "definido",
+          "SECURITY-CONTRACT.md": "aprobado"
+        }
+      },
+      "expected_behavior": "BLOCK",
+      "expected_output_contains": [
+        "MARKET-DATA-CONTRACT.md definido",
+        "falta aprobacion formal"
+      ],
+      "rationale": "Tarea de codigo funcional. MARKET-DATA esta solo definido (sin ADR + firma de Vic). La skill debe bloquear hasta que este aprobado."
+    },
+    {
+      "id": "EVAL-004",
+      "input": "Implementa el sistema de watchlists en el broker.",
+      "precondition": {
+        "contracts_state": {
+          "BROKER-CONTRACT.md": "aprobado",
+          "MARKET-DATA-CONTRACT.md": "aprobado",
+          "SECURITY-CONTRACT.md": "aprobado",
+          "REALTIME-CONTRACT.md": "aprobado",
+          "PRODUCT-CONTRACT.md": "aprobado",
+          "WHITE-LABEL-CONTRACT.md": "aprobado"
+        }
+      },
+      "expected_behavior": "ALLOW",
+      "expected_output_contains": [
+        "contratos obligatorios aprobados",
+        "puede proceder"
+      ],
+      "rationale": "Todos los contratos obligatorios del broker estan aprobados. La skill debe permitir la planificacion."
+    },
+    {
+      "id": "EVAL-005",
+      "input": "Crea el Dockerfile para trdstation-deploy.",
+      "precondition": {
+        "contracts_state": {
+          "DEPLOY-CONTRACT.md": "definido",
+          "SECURITY-CONTRACT.md": "aprobado",
+          "PRODUCT-CONTRACT.md": "aprobado"
+        }
+      },
+      "expected_behavior": "BLOCK",
+      "expected_output_contains": [
+        "DEPLOY-CONTRACT.md definido",
+        "requiere aprobacion"
+      ],
+      "rationale": "Dockerfile es codigo funcional del repo deploy. DEPLOY-CONTRACT es obligatorio y no esta aprobado."
+    }
+  ]
+}
